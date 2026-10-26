@@ -18,7 +18,12 @@ Internet.
   d'accueil : c'est là que les données sont gardées.
 
 
-1. LES RÉGLAGES (une seule fois)
+1. L'ACCÈS ET LES RÉGLAGES (une seule fois)
+- Au premier lancement : créer son identifiant et son mot de passe
+  (6 caractères minimum). Ils sont demandés à chaque ouverture.
+  Les noter : ils ne peuvent pas être retrouvés. En cas d'oubli, il
+  faut tout effacer puis restaurer la dernière sauvegarde.
+- Ils se changent dans Réglages > « Identifiant et mot de passe ».
 - Ouvrir « Réglages ».
 - Écrire son nom : il signe les messages et les comptes rendus.
 - Coller son lien Zoom : le même pour tous les élèves, il est mis

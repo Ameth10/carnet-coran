@@ -133,7 +133,7 @@ audio{width:100%;max-width:360px;height:36px}
 <div class="wrap">
   <header class="top">
     <div class="brand">Carnet Coran <span class="ar">دفتر القرآن</span></div>
-    <div class="row" style="gap:8px"><span class="mode" id="mode">Chargement…</span><button class="btn sm" data-act="tab" data-v="guide">Guide</button></div>
+    <div class="row" style="gap:8px"><span class="mode" id="mode">Chargement…</span><button class="btn sm" id="btn-guide" data-act="tab" data-v="guide">Guide</button></div>
   </header>
   <nav class="tabs" id="tabs"></nav>
   <main id="app"><div class="empty">Chargement de votre carnet…</div></main>
@@ -678,6 +678,8 @@ function render(force){
     if(a&&$("#app").contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)){PENDING=true;return}
   }
   PENDING=false;
+  if(verrouille()){$("#tabs").hidden=true;$("#btn-guide").hidden=true;$("#mode").textContent="";$("#app").innerHTML=vLock();const f=$("#app input");if(f)f.focus();return}
+  $("#tabs").hidden=false;$("#btn-guide").hidden=false;
   renderTabs();
   $("#mode").textContent=MODE==="db"?"Enregistré en ligne":IDB?"Enregistré sur cette tablette":"Mode limité : données non garanties";
   const V={guide:vGuide,today:vToday,eleves:vEleves,eleve:vEleve,form:vForm,planning:vPlanning,cours:vCours,bilan:vBilan,biblio:vBiblio,paiements:vPaiements,reglages:vReglages}[R.view]||vToday;
@@ -723,7 +725,7 @@ function vGuide(){
     <div><div class="eyebrow">Guide d'utilisation</div><h1>Le carnet, étape par étape</h1>
     <p class="muted" style="margin:6px 0 0">Ce carnet est à vous seule : les élèves n'y ont pas accès. Ils reçoivent seulement ce que vous leur envoyez sur WhatsApp.</p></div>
     ${etape(0,"Installer le carnet sur l'écran d'accueil",ul(["<b>iPhone ou iPad</b> : ouvrez le lien du carnet dans <b>Safari</b>, touchez le bouton Partager (le carré avec une flèche), puis <b>« Sur l'écran d'accueil »</b>.","<b>Android</b> : ouvrez le lien dans <b>Chrome</b>, touchez le menu ⋮, puis <b>« Ajouter à l'écran d'accueil »</b>.","Ensuite, ouvrez toujours le carnet <b>avec l'icône</b> de l'écran d'accueil : c'est là que vos données sont gardées. Si vous l'ouvrez à nouveau depuis le navigateur, vous ne retrouverez pas vos élèves."]))}
-    ${etape(1,"Les réglages, une seule fois",ul(["Ouvrez <b>Réglages</b>.","Écrivez votre nom : il signe les messages et les comptes rendus.","Collez votre <b>lien Zoom</b> : c'est le même pour tous les élèves, il sera mis automatiquement dans les messages.","Vous pouvez modifier les deux messages de bienvenue (enfant et adulte) et la liste des points à travailler."]))}
+    ${etape(1,"Votre accès et les réglages, une seule fois",ul(["Au premier lancement, créez votre <b>identifiant</b> et votre <b>mot de passe</b>. Le carnet les demandera à chaque ouverture. Notez-les bien : ils ne peuvent pas être retrouvés.","Ouvrez <b>Réglages</b>.","Écrivez votre nom : il signe les messages et les comptes rendus.","Collez votre <b>lien Zoom</b> : c'est le même pour tous les élèves, il sera mis automatiquement dans les messages.","Vous pouvez modifier les deux messages de bienvenue (enfant et adulte) et la liste des points à travailler."]))}
     ${etape(2,"Ajouter un élève",ul(["Touchez <b>Nouvel élève</b>.","Remplissez prénom, nom, adulte ou enfant, et le téléphone WhatsApp. Pour un enfant, mettez le nom du parent et son numéro : les messages lui seront adressés.","Ajoutez son ou ses créneaux (jour et heure), la durée et le tarif (par mois ou à la séance).","Touchez <b>Créer la fiche</b>, puis <b>Ouvrir WhatsApp</b> : le message de bienvenue avec le lien Zoom est déjà écrit, il ne reste qu'à l'envoyer."]))}
     ${etape(3,"Le planning et les objectifs",ul(["Dans la fiche de l'élève, partie <b>Planning et objectifs</b>, touchez <b>Modifier</b>.","Ajoutez les blocs de révision du jour avec leur durée (par exemple 10 min Koursiyou, 15 min An-Nas à Al-Humaza).","Choisissez la sourate de la semaine et écrivez les objectifs, un par ligne.","Touchez <b>Image du planning</b>, puis <b>Partager</b> : choisissez WhatsApp et l'élève (ou le parent). Le bouton <b>Ouvrir WhatsApp</b> envoie aussi un petit message avec le lien Zoom."]))}
     ${etape(4,"Pendant le cours",ul(["Depuis <b>Aujourd'hui</b> ou la fiche, touchez <b>Commencer</b>. Vous voyez ce qui était prévu et où l'élève en est.","Choisissez le type de cours, puis notez le <b>début</b> et la <b>fin</b> du passage (sourate et verset). Pour la lecture, la fin peut se remplir au moment où l'élève s'arrête : la prochaine fois, la lecture reprendra juste après.","<b>Sourates travaillées</b> : choisissez la sourate et touchez Acquise, En cours ou À revoir.","<b>Points à travailler</b> : choisissez dans la liste, ajoutez si besoin la lettre et le verset, puis <b>Ajouter</b>. « + Nouveau point… » ajoute un point à la liste pour toujours.","<b>Note à la main</b> : écrivez au stylet, en arabe ou en français. Choisissez la couleur, « Annuler » efface le dernier trait.","<b>Captures</b> : faites une capture de la page annotée dans Golden Quran, puis <b>Ajouter des captures</b>."]))}
@@ -810,7 +812,7 @@ function vForm(){
       </div>
     </div>
     <div class="card stack"><h2 style="margin:0">Créneaux et tarif</h2>
-      <div id="creneaux" class="stack">${cr.map((c,i)=>`<div class="row"><select name="jour${i}" id="f-jour${i}" style="flex:1;min-width:120px">${JOURS.map((j,k)=>`<option value="${k}" ${+c.jour===k?"selected":""}>${j}</option>`).join("")}</select><input type="time" name="heure${i}" id="f-heure${i}" value="${esc(c.heure||"")}" style="flex:1;min-width:110px"></div>`).join("")}</div>
+      <div id="creneaux" class="stack">${cr.map((c,i)=>ligneCreneau(c,i)).join("")}</div>
       <div><button type="button" class="btn sm" data-act="addcreneau">${I.plus}Ajouter un créneau</button></div>
       <div class="grid">
         <label class="f">Durée du cours (min)<input type="number" min="5" step="5" name="duree" id="f-duree" value="${esc(e.duree||"")}"></label>
@@ -819,8 +821,20 @@ function vForm(){
       </div>
     </div>
     <div class="card"><label class="f">Notes personnelles<textarea name="notes" id="f-notes" dir="auto" placeholder="Ce que vous voulez retenir sur cet élève">${esc(e.notes||"")}</textarea></label></div>
+    <div id="conflit-box"></div>
     <div class="row"><button class="btn primary" type="submit">${R.id?"Enregistrer":"Créer la fiche"}</button>${!R.id?`<span class="muted small">Vous pourrez ensuite composer son planning et envoyer le message de bienvenue.</span>`:""}</div>
   </form>`;
+}
+function ligneCreneau(c,i){return `<div class="row creneau"><select id="f-jour${i}" style="flex:1;min-width:120px">${JOURS.map((j,k)=>`<option value="${k}" ${+c.jour===k?"selected":""}>${j}</option>`).join("")}</select><input type="time" id="f-heure${i}" value="${esc(c.heure||"")}" style="flex:1;min-width:110px"><button type="button" class="btn sm ghost" data-act="delcreneau" aria-label="Retirer ce créneau">✕</button></div>`}
+const enMin=h=>{const[a,b]=String(h||"0:0").split(":").map(Number);return a*60+(b||0)};
+function conflits(cr,duree,selfId){
+  const out=new Set();
+  eleves().filter(e=>e.id!==selfId&&e.actif!==false).forEach(e=>(e.creneaux||[]).forEach(c=>cr.forEach(m=>{
+    if(+c.jour!==+m.jour)return;
+    const a=enMin(m.heure),b=a+(+duree||30),c0=enMin(c.heure),c1=c0+(+e.duree||30);
+    if(a<c1&&c0<b)out.add(`${nomComplet(e)} (${creneauTxt(c)}${e.duree?", "+e.duree+" min":""})`);
+  })));
+  return [...out];
 }
 function vPlanning(){
   const e=S.eleves[R.id];if(!e)return "";
@@ -963,6 +977,49 @@ function vBilan(){
     <div class="row">${R.confirmDel===R.id?`<span class="small">Supprimer ce cours ?</span><button class="btn danger sm" data-act="delseance" data-id="${R.id}">Oui, supprimer</button><button class="btn sm" data-act="annulerdel">Annuler</button>`:`<button class="btn danger sm" data-act="askdel" data-id="${R.id}">Supprimer ce cours</button>`}</div>
   </div>`;
 }
+/* ---------- accès protégé (version tablette) ---------- */
+let OUVERT=false;
+const verrouille=()=>MODE!=="db"&&READY&&!OUVERT;
+async function hacher(mdp,sel){
+  const enc=new TextEncoder();
+  if(window.crypto&&crypto.subtle){const k=await crypto.subtle.importKey("raw",enc.encode(mdp),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode(sel),iterations:150000,hash:"SHA-256"},k,256);return "p2:"+[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+  let h=2166136261;for(const c of sel+":"+mdp){h^=c.charCodeAt(0);h=Math.imul(h,16777619)>>>0}return "f1:"+h.toString(16);
+}
+function vLock(){
+  const a=reg().acces;
+  const carte=inner=>`<div style="max-width:420px;margin:24px auto" class="card stack">${inner}</div>`;
+  if(R.oubli)return carte(`<h1>Mot de passe oublié</h1>
+    <p class="small" style="margin:0">Vos données sont seulement sur cet appareil et protégées par ce mot de passe : personne ne peut le retrouver. La seule solution est de tout effacer, de créer un nouvel accès, puis de <b>restaurer votre dernière sauvegarde</b> (Réglages → Restaurer une sauvegarde).</p>
+    ${R.confirmReset?`<div class="banner">Tout effacer sur cet appareil ? Élèves, cours, audios et PDF seront supprimés.<div class="row" style="margin-top:8px"><button class="btn danger" data-act="reset">Oui, tout effacer</button><button class="btn" data-act="oubli" data-v="0">Annuler</button></div></div>`:`<div class="row"><button class="btn danger" data-act="askreset">Tout effacer et recommencer</button><button class="btn" data-act="oubli" data-v="0">Retour</button></div>`}`);
+  if(!a)return carte(`<div class="eyebrow">Bienvenue</div><h1>Créez votre accès</h1>
+    <p class="small muted" style="margin:0">Le carnet vous demandera cet identifiant et ce mot de passe à chaque ouverture. Notez-les bien : ils ne peuvent pas être retrouvés.</p>
+    <form class="stack" id="fCreerAcces" novalidate>
+      <label class="f">Identifiant<input id="a-id" name="identifiant" autocomplete="username" autocapitalize="none" placeholder="aicha"></label>
+      <label class="f">Mot de passe (6 caractères minimum)<input id="a-mdp" name="mdp" type="password" autocomplete="new-password"></label>
+      <label class="f">Confirmer le mot de passe<input id="a-mdp2" name="mdp2" type="password" autocomplete="new-password"></label>
+      <button class="btn primary" type="submit">Créer mon accès</button>
+    </form>`);
+  return carte(`<div class="eyebrow">Carnet privé</div><h1>Ouvrir mon carnet</h1>
+    <form class="stack" id="fLock" novalidate>
+      <label class="f">Identifiant<input id="l-id" name="identifiant" autocomplete="username" autocapitalize="none" value="${esc(R.lastId||"")}"></label>
+      <label class="f">Mot de passe<input id="l-mdp" name="mdp" type="password" autocomplete="current-password"></label>
+      <button class="btn primary" type="submit">Ouvrir</button>
+    </form>
+    <button class="btn ghost sm" data-act="oubli" data-v="1">Mot de passe oublié ?</button>`);
+}
+function erreurChamp(id,msg){const el=$("#"+id);el.setAttribute("aria-invalid","true");el.insertAdjacentHTML("afterend",`<span class="ferr">${msg}</span>`);el.focus()}
+function nettoyerErreurs(f){f.querySelectorAll(".ferr").forEach(x=>x.remove());f.querySelectorAll("[aria-invalid]").forEach(x=>x.removeAttribute("aria-invalid"))}
+async function creerAcces(f,fd,suite){
+  nettoyerErreurs(f);
+  const id=fd.get("identifiant").trim().toLowerCase(),m=fd.get("mdp"),m2=fd.get("mdp2");
+  const pid=f.id==="fCreerAcces"?"a":"r";
+  if(!id)return erreurChamp(pid+"-id","Choisissez un identifiant.");
+  if(m.length<6)return erreurChamp(pid+"-mdp","Au moins 6 caractères.");
+  if(m!==m2)return erreurChamp(pid+"-mdp2","Les deux mots de passe ne sont pas identiques.");
+  const sel=uid()+uid();
+  save("reglages","main",{...reg(),acces:{id,sel,hash:await hacher(m,sel)}});
+  suite();
+}
 function delBtn(k,quoi){return R.confirmDel===k?`<button class="del on" data-act="bdel" data-k="${k}">Supprimer ?</button>`:`<button class="del" data-act="askdel" data-id="${k}" aria-label="Supprimer : ${quoi}">✕</button>`}
 function vBiblio(){
   const f=R.filtre||"tous";
@@ -1021,6 +1078,15 @@ function vReglages(){
       <label class="f">Points à travailler proposés pendant le cours (un par ligne)<textarea id="r-err" name="erreurs" style="min-height:150px" dir="auto">${esc(listeErreurs().join("\n"))}</textarea></label>
       <div><button class="btn primary" type="submit">Enregistrer</button></div>
     </div>
+  </form>
+  ${MODE!=="db"&&reg().acces?`<form class="card stack" id="fAcces" novalidate style="margin-top:14px"><h2 style="margin:0">Identifiant et mot de passe</h2>
+    <p class="small muted" style="margin:0">Identifiant actuel : <b>${esc(reg().acces.id)}</b>. Il est demandé à chaque ouverture du carnet.</p>
+    <div class="grid"><label class="f">Nouvel identifiant<input id="r-id" name="identifiant" autocapitalize="none" value="${esc(reg().acces.id)}"></label>
+    <label class="f">Nouveau mot de passe<input id="r-mdp" name="mdp" type="password" autocomplete="new-password"></label>
+    <label class="f">Confirmer<input id="r-mdp2" name="mdp2" type="password" autocomplete="new-password"></label></div>
+    <div class="row"><button class="btn" type="submit">Changer</button><button type="button" class="btn ghost" data-act="verrouiller">Verrouiller maintenant</button></div>
+  </form>`:""}
+  <form class="stack" style="margin-top:14px" onsubmit="return false">
     <div class="card stack"><h2 style="margin:0">Vos données</h2>
       <p class="small" style="margin:0">${MODE==="db"?"Vos données sont enregistrées en ligne, visibles par vous seule. Vous les retrouvez sur la tablette, le téléphone et l'ordinateur.":"Vos élèves, vos cours, vos audios et vos PDF sont gardés <b>sur cette tablette uniquement</b>, dans ce navigateur. Faites une sauvegarde chaque semaine et gardez-la dans Fichiers ou Google Drive : si la tablette est perdue ou le navigateur vidé, c'est elle qui permet de tout récupérer."}</p>
       ${R.importData?`<div class="banner">Remplacer toutes les données de cette tablette par la sauvegarde du ${esc(fmtLong(R.importData.exporte||new Date().toISOString()))} (${Object.keys(R.importData.data.eleves||{}).length} élèves) ?<div class="row" style="margin-top:8px"><button type="button" class="btn danger" data-act="importok">Oui, restaurer</button><button type="button" class="btn" data-act="importnon">Annuler</button></div></div>`:""}
@@ -1048,7 +1114,13 @@ const ACT={
    Object.keys(S.paiements).filter(k=>k.startsWith(d.id+"_")).forEach(k=>remove("paiements",k));
    remove("eleves",d.id);toast("Élève supprimé.");go("eleves");
  },
- addcreneau:()=>{const box=$("#creneaux"),i=box.children.length;box.insertAdjacentHTML("beforeend",`<div class="row"><select name="jour${i}" id="f-jour${i}" style="flex:1;min-width:120px">${JOURS.map((j,k)=>`<option value="${k}">${j}</option>`).join("")}</select><input type="time" name="heure${i}" id="f-heure${i}" style="flex:1;min-width:110px"></div>`)},
+ addcreneau:()=>{const box=$("#creneaux"),rows=box.querySelectorAll(".creneau"),last=rows[rows.length-1];const j=last?(+last.querySelector("select").value+1)%7:new Date().getDay(),h=last?last.querySelector("input").value:"18:00";box.insertAdjacentHTML("beforeend",ligneCreneau({jour:j,heure:h},uid()))},
+ delcreneau:(d,b)=>{b.closest(".creneau").remove()},
+ forceconflit:()=>{R.forceConflit=true;$("#fEleve").requestSubmit()},
+ oubli:d=>{R.oubli=d.v==="1";R.confirmReset=false;render(true)},
+ askreset:()=>{R.confirmReset=true;render(true)},
+ reset:async()=>{for(const k of Object.keys(URLS))await delAsset(k);COLS.forEach(c=>{S[c]={};persistLocal(c)});R={view:"today"};toast("Carnet effacé. Créez votre nouvel accès.");render(true)},
+ verrouiller:()=>{OUVERT=false;R={view:"today"};render(true)},
  addbloc:()=>{R.tmp.planning.push({titre:"",min:5});render(true)},
  delbloc:d=>{R.tmp.planning.splice(+d.i,1);render(true)},
  idee:d=>{const P=R.tmp;const vide=P.planning.findIndex(b=>!b.titre);if(vide>=0)P.planning[vide]={titre:d.t,min:+d.m};else P.planning.push({titre:d.t,min:+d.m});render(true)},
@@ -1135,7 +1207,8 @@ document.addEventListener("change",async ev=>{
 document.addEventListener("submit",async ev=>{
   ev.preventDefault();const f=ev.target,fd=new FormData(f);
   if(f.id==="fEleve"){
-    const cr=[];for(let i=0;i<20;i++){if(!fd.has("jour"+i))break;if(fd.get("heure"+i))cr.push({jour:+fd.get("jour"+i),heure:fd.get("heure"+i)})}
+    const lignes=[...f.querySelectorAll(".creneau")].map(r=>({jour:+r.querySelector("select").value,heure:r.querySelector("input").value,input:r.querySelector("input")}));
+    const cr=lignes.filter(l=>l.heure).map(l=>({jour:l.jour,heure:l.heure}));
     const base=R.id?S.eleves[R.id]:{cree:new Date().toISOString(),actif:true,sourates:{},planning:[],objectifs:[],envois:[]};
     f.querySelectorAll(".ferr").forEach(x=>x.remove());f.querySelectorAll("[aria-invalid]").forEach(x=>x.removeAttribute("aria-invalid"));
     const errs=[];const err=(id,msg)=>{const el=$("#"+id);el.setAttribute("aria-invalid","true");el.insertAdjacentHTML("afterend",`<span class="ferr">${msg}</span>`);errs.push(el)};
@@ -1145,7 +1218,14 @@ document.addEventListener("submit",async ev=>{
     if(!telWa(fd.get("tel")))err("f-tel","Indiquez le numéro WhatsApp.");
     if(fd.get("tarif")===""||+fd.get("tarif")<0)err("f-tarif","Indiquez le tarif (0 si le cours est gratuit).");
     if(!fd.get("tarifMode"))err("f-mode","Choisissez par mois ou à la séance.");
-    if(!cr.length)err("f-heure0","Indiquez l'heure d'au moins un créneau.");
+    if(!cr.length){const l=lignes[0];if(l)err(l.input.id,"Indiquez l'heure d'au moins un créneau.");else{toast("Ajoutez au moins un créneau.");return}}
+    const dureeF=+fd.get("duree")||30;
+    lignes.forEach((l,i)=>{if(!l.heure)return;const avant=lignes.slice(0,i).filter(o=>o.heure&&o.jour===l.jour);
+      if(avant.some(o=>o.heure===l.heure))err(l.input.id,"Ce créneau est déjà indiqué au-dessus.");
+      else if(avant.some(o=>Math.abs(enMin(o.heure)-enMin(l.heure))<dureeF))err(l.input.id,"Ce créneau chevauche un autre créneau de cet élève.")});
+    const box=$("#conflit-box");box.innerHTML="";
+    if(!errs.length&&!R.forceConflit){const cf=conflits(cr,dureeF,R.id);
+      if(cf.length){box.innerHTML=`<div class="banner"><b>Ce créneau est déjà pris</b> par ${cf.map(esc).join(", ")}. Les cours sont individuels : changez l'heure, ou enregistrez quand même si c'est voulu.<div class="row" style="margin-top:8px"><button type="button" class="btn" data-act="forceconflit">Enregistrer quand même</button></div></div>`;box.scrollIntoView({block:"center",behavior:"smooth"});return}}
     if(errs.length){errs[0].scrollIntoView({block:"center",behavior:"smooth"});errs[0].focus();toast("Il manque des informations dans la fiche.");return}
     const data={...base,prenom:fd.get("prenom").trim(),nom:fd.get("nom").trim(),categorie:fd.get("categorie"),parent:fd.get("categorie")==="enfant"?fd.get("parent").trim():"",tel:fd.get("tel").trim(),niveau:fd.get("niveau").trim(),ouOnEnEst:fd.get("ouOnEnEst").trim(),creneaux:cr,duree:+fd.get("duree")||null,tarif:+fd.get("tarif")||0,tarifMode:fd.get("tarifMode"),notes:fd.get("notes")};
     const id=R.id||uid();save("eleves",id,data);
@@ -1155,6 +1235,14 @@ document.addEventListener("submit",async ev=>{
     const e=S.eleves[R.id],P=R.tmp;
     save("eleves",R.id,{...e,planning:P.planning.filter(b=>b.titre.trim()).map(b=>({titre:b.titre.trim(),min:+b.min||0})),objectifs:P.objectifs.split("\n").map(s=>s.trim()).filter(Boolean),sourateSemaine:+P.sourateSemaine||null});
     toast("Planning enregistré.");go("eleve",{id:R.id});
+  }
+  if(f.id==="fCreerAcces"){await creerAcces(f,fd,()=>{OUVERT=true;toast("Accès créé.");go("today")});return}
+  if(f.id==="fAcces"){await creerAcces(f,fd,()=>{toast("Identifiant et mot de passe changés.");render(true)});return}
+  if(f.id==="fLock"){
+    nettoyerErreurs(f);const a=reg().acces,id=fd.get("identifiant").trim().toLowerCase();R.lastId=id;
+    if(a&&id===a.id&&await hacher(fd.get("mdp"),a.sel)===a.hash){OUVERT=true;go("today")}
+    else{erreurChamp("l-mdp","Identifiant ou mot de passe incorrect.");$("#l-mdp").value=""}
+    return;
   }
   if(f.id==="fReglages"){save("reglages","main",{...reg(),profNom:fd.get("profNom").trim(),zoom:fd.get("zoom").trim(),accueil:fd.get("accueil"),accueilAdulte:fd.get("accueilAdulte"),erreurs:[...new Set(fd.get("erreurs").split("\n").map(s=>s.trim()).filter(Boolean))]});toast("Réglages enregistrés.");render(true)}
   if(f.id==="fFichier"&&R.recBlob&&!(fd.get("file")&&fd.get("file").size)){
