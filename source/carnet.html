@@ -1,0 +1,947 @@
+<title>Carnet Coran</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Carnet : barre d'onglets en bas sur téléphone, en haut sur tablette ; cartes sobres, vert profond et or des visuels de la prof */
+:root{
+  --bg:#f6f3ec; --card:#fffdf8; --ink:#1f2a24; --muted:#5f6b63; --line:#e3ddd0;
+  --green:#2f5240; --green-soft:#e3ece4; --gold:#a67c2e; --gold-soft:#f4ead6;
+  --rose-soft:#f6e1dc; --rose:#9a3f2f; --blue-soft:#e2eaf2; --blue:#2f5677;
+  --ok:#2f6b3f; --warn:#8a5a10; --danger:#a3352a;
+  --f-display:"Literata",Georgia,serif; --f-body:"Figtree",system-ui,sans-serif; --f-ar:"Amiri","Traditional Arabic",serif;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a16; --card:#1c241f; --ink:#ece8de; --muted:#a3ab9f; --line:#2f3a33;
+  --green:#8fc0a0; --green-soft:#24352b; --gold:#d8b46a; --gold-soft:#3a3122;
+  --rose-soft:#3d2723; --rose:#eaa595; --blue-soft:#22303d; --blue:#9cc0e0;
+  --ok:#8fd19e; --warn:#e6bb6a; --danger:#f0978b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a16; --card:#1c241f; --ink:#ece8de; --muted:#a3ab9f; --line:#2f3a33;
+  --green:#8fc0a0; --green-soft:#24352b; --gold:#d8b46a; --gold-soft:#3a3122;
+  --rose-soft:#3d2723; --rose:#eaa595; --blue-soft:#22303d; --blue:#9cc0e0;
+  --ok:#8fd19e; --warn:#e6bb6a; --danger:#f0978b; color-scheme:dark}
+html,body{height:100%}
+[hidden]{display:none!important}
+body{margin:0}
+img{max-width:100%;height:auto}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+*{box-sizing:border-box}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 96px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;padding-block:6px 14px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--green);display:flex;align-items:baseline;gap:10px}
+.brand .ar{font-family:var(--f-ar);font-size:20px;color:var(--gold);font-weight:400}
+.mode{font-size:12px;color:var(--muted)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));z-index:10}
+nav.tabs button{background:none;border:0;color:var(--muted);font:500 11px var(--f-body);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 6px;cursor:pointer;min-width:60px}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button.on{color:var(--green)}
+h1{font-family:var(--f-display);font-weight:700;font-size:26px;margin:0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:500;font-size:18px;margin:0 0 10px}
+.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.tile{background:var(--green-soft);border-radius:var(--r);padding:12px 14px;min-width:0}
+.tile.gold{background:var(--gold-soft)} .tile.rose{background:var(--rose-soft)} .tile.blue{background:var(--blue-soft)}
+.tile .lab{font-size:12px;color:var(--muted);margin-bottom:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 14px var(--f-body);cursor:pointer;text-decoration:none;min-height:40px}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--green);border-color:var(--green);color:var(--card)}
+.btn.wa{background:#1f7a4a;border-color:#1f7a4a;color:#fff}
+.btn.danger{color:var(--danger);border-color:var(--danger)}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.sm{padding:5px 10px;min-height:32px;font-size:13px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn svg{width:18px;height:18px}
+input,select,textarea{font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:9px 11px;width:100%;min-width:0}
+textarea{min-height:80px;resize:vertical}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted);min-width:0}
+.pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--green-soft);color:var(--green);font-weight:500}
+.pill.gold{background:var(--gold-soft);color:var(--gold)} .pill.rose{background:var(--rose-soft);color:var(--rose)} .pill.blue{background:var(--blue-soft);color:var(--blue)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);min-width:0}
+.li:first-child{border-top:0}
+.li .grow{flex:1;min-width:0}
+.av{width:40px;height:40px;border-radius:50%;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:700;flex-shrink:0}
+.clickable{cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);font:500 13px var(--f-body);color:var(--ink);cursor:pointer}
+.chip.on{background:var(--green);color:var(--card);border-color:var(--green)}
+.chip.err{background:var(--rose-soft);color:var(--rose);border-color:transparent}
+.chip.acq{background:var(--green-soft);color:var(--green);border-color:transparent}
+.chip.enc{background:var(--blue-soft);color:var(--blue);border-color:transparent}
+.chip.rev{background:var(--gold-soft);color:var(--gold);border-color:transparent}
+.chip .x{opacity:.7}
+.ar{font-family:var(--f-ar)}
+.banner{background:var(--gold-soft);color:var(--ink);border-radius:var(--r);padding:12px 14px}
+.banner.green{background:var(--green-soft)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.pad-wrap{border:1px dashed var(--muted);border-radius:var(--r);background:#fffef9;position:relative}
+.pad-wrap canvas{display:block;width:100%;height:280px;touch-action:none;border-radius:var(--r)}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.sbtn{text-align:left;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--card);cursor:pointer;font:13px var(--f-body);color:var(--ink)}
+.sbtn .n{color:var(--muted);font-size:11px}
+.sbtn.acquise{background:var(--green-soft);border-color:transparent}
+.sbtn.en_cours{background:var(--blue-soft);border-color:transparent}
+.sbtn.a_revoir{background:var(--gold-soft);border-color:transparent}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.thumbs img{width:110px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.thumb{position:relative;display:inline-block}
+.thumb .del,.del-x{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(20,26,22,.75);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.del-x.on,.thumb .del.on{background:var(--danger);width:auto;padding:0 10px;border-radius:14px;font:600 12px var(--f-body)}
+.ferr{color:var(--danger);font-size:12px}
+[aria-invalid="true"]{border-color:var(--danger)}
+.media-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.empty{text-align:center;padding:28px 12px;color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:var(--r);font-size:14px;z-index:20;max-width:calc(100% - 32px)}
+.offre{position:fixed;left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));z-index:15}
+.offre-in{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.2);display:flex;flex-direction:column;gap:10px}
+.chrono{font-variant-numeric:tabular-nums;font-weight:600;color:var(--green)}
+.num{font-variant-numeric:tabular-nums}
+audio{width:100%;max-width:360px;height:36px}
+.split{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+@media (min-width:820px){
+  nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);bottom:auto;border:1px solid var(--line);border-radius:14px;margin-bottom:16px;justify-content:flex-start;gap:4px;padding:6px}
+  nav.tabs button{flex-direction:row;font-size:14px;gap:8px;padding:8px 12px;border-radius:8px}
+  nav.tabs button.on{background:var(--green-soft)}
+  .wrap{padding-block:16px 40px}
+  .toast{bottom:24px}
+  .offre{bottom:24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Carnet Coran <span class="ar">دفتر القرآن</span></div>
+    <div class="row" style="gap:8px"><span class="mode" id="mode">Chargement…</span><button class="btn sm" data-act="tab" data-v="guide">Guide</button></div>
+  </header>
+  <nav class="tabs" id="tabs"></nav>
+  <main id="app"><div class="empty">Chargement de votre carnet…</div></main>
+</div>
+<div id="toast" class="toast" hidden></div>
+<div id="offre" class="offre" hidden><div class="offre-in">
+  <div><b>Fichier prêt</b><div class="small muted nm"></div></div>
+  <div class="row"><button class="btn wa" data-act="partager">Partager (WhatsApp…)</button><button class="btn" data-act="telecharger">Enregistrer sur la tablette</button><button class="btn ghost" data-act="fermeroffre">Fermer</button></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+"use strict";
+const SOURATES=[["Al-Fatiha","الفاتحة",7],["Al-Baqara","البقرة",286],["Al-Imran","آل عمران",200],["An-Nisa","النساء",176],["Al-Ma'ida","المائدة",120],["Al-An'am","الأنعام",165],["Al-A'raf","الأعراف",206],["Al-Anfal","الأنفال",75],["At-Tawba","التوبة",129],["Yunus","يونس",109],["Hud","هود",123],["Yusuf","يوسف",111],["Ar-Ra'd","الرعد",43],["Ibrahim","إبراهيم",52],["Al-Hijr","الحجر",99],["An-Nahl","النحل",128],["Al-Isra","الإسراء",111],["Al-Kahf","الكهف",110],["Maryam","مريم",98],["Ta-Ha","طه",135],["Al-Anbiya","الأنبياء",112],["Al-Hajj","الحج",78],["Al-Mu'minun","المؤمنون",118],["An-Nur","النور",64],["Al-Furqan","الفرقان",77],["Ash-Shu'ara","الشعراء",227],["An-Naml","النمل",93],["Al-Qasas","القصص",88],["Al-Ankabut","العنكبوت",69],["Ar-Rum","الروم",60],["Luqman","لقمان",34],["As-Sajda","السجدة",30],["Al-Ahzab","الأحزاب",73],["Saba","سبأ",54],["Fatir","فاطر",45],["Ya-Sin","يس",83],["As-Saffat","الصافات",182],["Sad","ص",88],["Az-Zumar","الزمر",75],["Ghafir","غافر",85],["Fussilat","فصلت",54],["Ash-Shura","الشورى",53],["Az-Zukhruf","الزخرف",89],["Ad-Dukhan","الدخان",59],["Al-Jathiya","الجاثية",37],["Al-Ahqaf","الأحقاف",35],["Muhammad","محمد",38],["Al-Fath","الفتح",29],["Al-Hujurat","الحجرات",18],["Qaf","ق",45],["Adh-Dhariyat","الذاريات",60],["At-Tur","الطور",49],["An-Najm","النجم",62],["Al-Qamar","القمر",55],["Ar-Rahman","الرحمن",78],["Al-Waqi'a","الواقعة",96],["Al-Hadid","الحديد",29],["Al-Mujadila","المجادلة",22],["Al-Hashr","الحشر",24],["Al-Mumtahana","الممتحنة",13],["As-Saff","الصف",14],["Al-Jumu'a","الجمعة",11],["Al-Munafiqun","المنافقون",11],["At-Taghabun","التغابن",18],["At-Talaq","الطلاق",12],["At-Tahrim","التحريم",12],["Al-Mulk","الملك",30],["Al-Qalam","القلم",52],["Al-Haqqa","الحاقة",52],["Al-Ma'arij","المعارج",44],["Nuh","نوح",28],["Al-Jinn","الجن",28],["Al-Muzzammil","المزمل",20],["Al-Muddaththir","المدثر",56],["Al-Qiyama","القيامة",40],["Al-Insan","الإنسان",31],["Al-Mursalat","المرسلات",50],["An-Naba","النبأ",40],["An-Nazi'at","النازعات",46],["Abasa","عبس",42],["At-Takwir","التكوير",29],["Al-Infitar","الانفطار",19],["Al-Mutaffifin","المطففين",36],["Al-Inshiqaq","الانشقاق",25],["Al-Buruj","البروج",22],["At-Tariq","الطارق",17],["Al-A'la","الأعلى",19],["Al-Ghashiya","الغاشية",26],["Al-Fajr","الفجر",30],["Al-Balad","البلد",20],["Ash-Shams","الشمس",15],["Al-Layl","الليل",21],["Ad-Duha","الضحى",11],["Ash-Sharh","الشرح",8],["At-Tin","التين",8],["Al-Alaq","العلق",19],["Al-Qadr","القدر",5],["Al-Bayyina","البينة",8],["Az-Zalzala","الزلزلة",8],["Al-Adiyat","العاديات",11],["Al-Qari'a","القارعة",11],["At-Takathur","التكاثر",8],["Al-Asr","العصر",3],["Al-Humaza","الهمزة",9],["Al-Fil","الفيل",5],["Quraysh","قريش",4],["Al-Ma'un","الماعون",7],["Al-Kawthar","الكوثر",3],["Al-Kafirun","الكافرون",6],["An-Nasr","النصر",3],["Al-Masad","المسد",5],["Al-Ikhlas","الإخلاص",4],["Al-Falaq","الفلق",5],["An-Nas","الناس",6]];
+const JOURS=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+const ETATS={en_cours:"En cours",acquise:"Acquise",a_revoir:"À revoir"};
+const ETAT_CHIP={en_cours:"enc",acquise:"acq",a_revoir:"rev"};
+const ERREURS=["Makhraj","Madd","Ghunna","Idgham","Ikhfa","Qalqala","Harakat","Waqf","Hésitation","Oubli de verset","Fluidité"];
+const TYPES={memo:"Mémorisation",lecture:"Lecture",tajwid:"Tajwid",revision:"Révision"};
+const BLOC_COULEURS=["#d7e3cf","#f2d6cf","#d5e1ec","#f0dfc3","#e2d9ec","#d3e8e4"];
+const DEFAUT_ACCUEIL="Salam Aleykoum {parent},\n\nBienvenue à {prenom} ! Ses cours auront lieu {creneau} sur Zoom :\n{zoom}\n\nBarakAllahu fikoum\n{prof}";
+const DEFAUT_ACCUEIL_ADULTE="Salam Aleykoum {prenom},\n\nBienvenue ! Vos cours auront lieu {creneau} sur Zoom :\n{zoom}\n\nBarakAllahu fikoum\n{prof}";
+
+const S={eleves:{},seances:{},fichiers:{},paiements:{},reglages:{}};
+const COLS=Object.keys(S);
+let DB=null,ASSETS=null,DL=null,MODE="local",READY=false;
+let R={view:"today"};
+let DRAFT=null,PAD=null,PEN={c:"#1f2a24",w:2.4},PENDING=false,CHRONO=null;
+const EDIT_VIEWS=new Set(["form","planning","cours"]);
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const sN=n=>n?SOURATES[n-1][0]:"";
+const sAr=n=>n?SOURATES[n-1][1]:"";
+const moisKey=(d=new Date())=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+const fmtDate=iso=>new Date(iso).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"});
+const fmtLong=iso=>new Date(iso).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+const fmtMois=k=>{const[y,m]=k.split("-");return new Date(+y,+m-1,1).toLocaleDateString("fr-FR",{month:"long",year:"numeric"})};
+const euro=n=>(Math.round((+n||0)*100)/100).toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
+const reg=()=>S.reglages.main||{};
+const eleves=()=>Object.entries(S.eleves).map(([id,e])=>({id,...e})).sort((a,b)=>(a.prenom||"").localeCompare(b.prenom||"","fr"));
+const seancesDe=id=>Object.entries(S.seances).map(([sid,s])=>({id:sid,...s})).filter(s=>s.eleveId===id).sort((a,b)=>b.date.localeCompare(a.date));
+const blobUrl=id=>!id?"":id.startsWith("data:")?id:id.startsWith("idb:")?(URLS[id]||""):"/_blob/"+id;
+const creneauTxt=c=>c?JOURS[c.jour].toLowerCase()+" "+(c.heure||"").replace(":","h"):"";
+const creneauxTxt=e=>(e.creneaux||[]).map(creneauTxt).join(", ");
+const nomComplet=e=>[e.prenom,e.nom].filter(Boolean).join(" ");
+/* un enfant dont on écrit au parent : on parle de l'enfant ; sinon on s'adresse à l'élève directement */
+const enf=e=>e.categorie==="enfant"&&!!e.parent;
+const salut=e=>"Salam Aleykoum "+(enf(e)?e.parent:e.prenom)+",";
+const listeErreurs=()=>reg().erreurs&&reg().erreurs.length?reg().erreurs:ERREURS;
+
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,3200)}
+
+/* ---------- stockage ---------- */
+const QUEUE={};
+function save(col,id,data){
+  S[col]={...S[col],[id]:data};
+  if(DB){const k=col+"/"+id;QUEUE[k]=(QUEUE[k]||Promise.resolve()).then(()=>{const cur=S[col][id];if(cur)return DB.collection(col).doc(id).set(cur)}).catch(e=>toast("Enregistrement impossible ("+(e&&e.code||"erreur")+"). Réessayez."))}
+  else persistLocal(col);
+}
+function remove(col,id){
+  const c={...S[col]};delete c[id];S[col]=c;
+  if(DB){const k=col+"/"+id;QUEUE[k]=(QUEUE[k]||Promise.resolve()).then(()=>DB.collection(col).doc(id).delete()).catch(()=>toast("Suppression impossible. Réessayez."))}
+  else persistLocal(col);
+}
+/* Fichier ouvert sur la tablette : tout est gardé dans le navigateur (IndexedDB), fichiers compris */
+let IDB=null;const URLS={};
+function idbOpen(){return new Promise((ok,ko)=>{const r=indexedDB.open("carnet-coran",1);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("kv"))d.createObjectStore("kv");if(!d.objectStoreNames.contains("files"))d.createObjectStore("files")};r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)})}
+function idb(store,mode,fn){return new Promise((ok,ko)=>{const tx=IDB.transaction(store,mode),r=fn(tx.objectStore(store));tx.oncomplete=()=>ok(r&&r.result);tx.onerror=()=>ko(tx.error);tx.onabort=()=>ko(tx.error)})}
+const PERSIST={};
+function persistLocal(col){
+  if(!IDB){try{localStorage.setItem("carnet-coran",JSON.stringify(S))}catch(e){}return}
+  clearTimeout(PERSIST[col]);PERSIST[col]=setTimeout(()=>idb("kv","readwrite",st=>st.put(S[col],col)).catch(()=>toast("Enregistrement impossible : la mémoire de la tablette est peut-être pleine.")),150);
+}
+async function loadLocal(){
+  try{IDB=await idbOpen()}catch(e){IDB=null}
+  if(!IDB){try{const d=JSON.parse(localStorage.getItem("carnet-coran")||"null");if(d)COLS.forEach(c=>S[c]=d[c]||{})}catch(e){}return}
+  for(const c of COLS){const v=await idb("kv","readonly",st=>st.get(c));if(v)S[c]=v}
+  await new Promise(ok=>{const tx=IDB.transaction("files","readonly");tx.objectStore("files").openCursor().onsuccess=ev=>{const cur=ev.target.result;if(cur){URLS["idb:"+cur.key]=URL.createObjectURL(cur.value);cur.continue()}};tx.oncomplete=ok;tx.onerror=ok});
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+}
+async function upload(file,type){
+  if(ASSETS){const r=await ASSETS.upload(file,type?{type}:undefined);return r.id}
+  if(IDB){const id=uid();await idb("files","readwrite",st=>st.put(file,id));URLS["idb:"+id]=URL.createObjectURL(file);return "idb:"+id}
+  if(file.size>1.5e6)throw new Error("trop gros");
+  return await new Promise((ok,ko)=>{const fr=new FileReader();fr.onload=()=>ok(fr.result);fr.onerror=ko;fr.readAsDataURL(file)});
+}
+async function delAsset(id){
+  if(!id||id.startsWith("data:"))return;
+  if(id.startsWith("idb:")){if(IDB)try{await idb("files","readwrite",st=>st.delete(id.slice(4)))}catch(e){}if(URLS[id]){URL.revokeObjectURL(URLS[id]);delete URLS[id]}return}
+  if(ASSETS)try{await ASSETS.delete(id)}catch(e){}
+}
+const MIMES={pdf:"application/pdf",png:"image/png",jpg:"image/jpeg",json:"application/json",m4a:"audio/mp4",mp4:"audio/mp4",mp3:"audio/mpeg",webm:"audio/webm",ogg:"audio/ogg",wav:"audio/wav",aac:"audio/aac"};
+let OFFRE=null;
+async function saveFile(filename,blob){
+  if(DL){
+    try{await DL.save({filename,data:blob});return true}
+    catch(e){if(e&&e.code==="declined")return false;toast("Téléchargement impossible ("+(e&&e.code||"erreur")+").");return false}
+  }
+  const ext=(filename.match(/\.([a-z0-9]+)$/i)||[])[1]||"";
+  OFFRE={filename,file:new File([blob],filename,{type:blob.type||MIMES[ext.toLowerCase()]||"application/octet-stream"})};
+  const el=$("#offre");el.querySelector(".nm").textContent=filename;
+  let ok=false;try{ok=!!(navigator.canShare&&navigator.canShare({files:[OFFRE.file]}))}catch(e){}
+  el.querySelector('[data-act="partager"]').hidden=!ok;el.hidden=false;
+  return true;
+}
+
+/* ---------- WhatsApp ---------- */
+function telWa(t){let d=String(t||"").replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);if(d.length===10&&d.startsWith("0"))d="33"+d.slice(1);return d}
+function waLink(tel,text){const n=telWa(tel);return "https://wa.me/"+(n||"")+"?text="+encodeURIComponent(text)}
+function accueil(e){const r=reg();return remplir(enf(e)?(r.accueil||DEFAUT_ACCUEIL):(r.accueilAdulte||DEFAUT_ACCUEIL_ADULTE),e)}
+function remplir(tpl,e){const r=reg();return (tpl||"").replace(/\{prenom\}/g,e.prenom||"").replace(/\{parent\}/g,e.parent||e.prenom||"").replace(/\{creneau\}/g,(e.creneaux||[]).length?"le "+creneauxTxt(e):"aux horaires convenus").replace(/\{zoom\}/g,r.zoom||"(lien Zoom à ajouter dans les réglages)").replace(/\{prof\}/g,r.profNom||"")}
+
+/* ---------- icônes ---------- */
+const I={
+ today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><circle cx="12" cy="15" r="1.5"/></svg>',
+ eleves:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3 2.5 3.5 5.2"/></svg>',
+ biblio:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM4 19a2 2 0 0 1 2-2h12"/><path d="M10 7h5"/></svg>',
+ paiements:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h3"/></svg>',
+ reglages:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+ wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg>',
+ zoom:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></svg>',
+ play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8z"/></svg>',
+ plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+ pdf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15h6M9 18h4"/></svg>',
+ img:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>'
+};
+
+/* ---------- navigation ---------- */
+function go(view,extra={}){R={view,...extra};if(view!=="cours"){stopChrono()}render(true);window.scrollTo(0,0)}
+function renderTabs(){
+  const tabs=[["today","Aujourd'hui"],["eleves","Élèves"],["biblio","Bibliothèque"],["paiements","Paiements"],["reglages","Réglages"]];
+  const cur={eleve:"eleves",form:"eleves",planning:"eleves",cours:"today",bilan:"eleves"}[R.view]||R.view;
+  $("#tabs").innerHTML=tabs.map(([v,l])=>`<button data-act="tab" data-v="${v}" class="${cur===v?"on":""}" aria-label="${l}">${I[v]}<span>${l}</span></button>`).join("");
+}
+function render(force){
+  if(!force){
+    if(EDIT_VIEWS.has(R.view))return;
+    const a=document.activeElement;
+    if(a&&$("#app").contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)){PENDING=true;return}
+  }
+  PENDING=false;
+  renderTabs();
+  $("#mode").textContent=MODE==="db"?"Enregistré en ligne":IDB?"Enregistré sur cette tablette":"Mode limité : données non garanties";
+  const V={guide:vGuide,today:vToday,eleves:vEleves,eleve:vEleve,form:vForm,planning:vPlanning,cours:vCours,bilan:vBilan,biblio:vBiblio,paiements:vPaiements,reglages:vReglages}[R.view]||vToday;
+  $("#app").innerHTML=V();
+  if(R.view==="cours"){setupPad();startChrono()}
+}
+document.addEventListener("focusout",()=>setTimeout(()=>{if(PENDING)render()},50));
+
+/* ---------- vues ---------- */
+function moisPaye(e,m=moisKey()){
+  if(e.tarifMode==="seance"){const ss=seancesDe(e.id).filter(s=>s.date.startsWith(m));return ss.every(s=>s.paye)}
+  return !!(S.paiements[e.id+"_"+m]||{}).paye;
+}
+function vToday(){
+  const now=new Date(),j=now.getDay();
+  const actifs=eleves().filter(e=>e.actif!==false);
+  const cours=[];actifs.forEach(e=>(e.creneaux||[]).forEach(c=>{if(+c.jour===j)cours.push({e,c})}));
+  cours.sort((a,b)=>(a.c.heure||"").localeCompare(b.c.heure||""));
+  const demain=[];actifs.forEach(e=>(e.creneaux||[]).forEach(c=>{if(+c.jour===(j+1)%7)demain.push({e,c})}));
+  demain.sort((a,b)=>(a.c.heure||"").localeCompare(b.c.heure||""));
+  const nonPayes=actifs.filter(e=>!moisPaye(e)).length;
+  const zoom=reg().zoom;
+  const ligne=({e,c})=>`<div class="li"><div class="av">${esc((e.prenom||"?")[0])}</div><div class="grow clickable" data-act="eleve" data-id="${e.id}"><div><b>${esc(nomComplet(e))}</b> <span class="muted small">· ${e.categorie==="enfant"?"enfant":"adulte"}</span> ${e.exemple?'<span class="pill gold">exemple</span>':""}</div><div class="muted small">${esc((c.heure||"").replace(":","h"))} · ${esc(e.ouOnEnEst||"Pas encore de suivi")}</div>${e.aFaire?`<div class="small" style="color:var(--blue)">Prévu : ${esc(e.aFaire)}</div>`:""}</div><div class="row" style="justify-content:flex-end">${zoom?`<a class="btn sm" href="${esc(zoom)}" target="_blank" rel="noopener">${I.zoom}Zoom</a>`:""}<button class="btn sm primary" data-act="cours" data-id="${e.id}">Commencer</button></div></div>`;
+  if(!READY)return `<div class="empty">Chargement de votre carnet…</div>`;
+  return `<div class="stack">
+    <div><div class="eyebrow">${esc(fmtLong(now.toISOString()))}</div><h1>Aujourd'hui</h1></div>
+    ${!zoom?`<div class="banner">Ajoutez votre lien Zoom dans <button class="btn sm" data-act="tab" data-v="reglages">Réglages</button> pour l'avoir sur chaque cours et dans les messages.</div>`:""}
+    <div class="split">
+      <div class="tile"><div class="lab">Cours aujourd'hui</div><div style="font-size:24px;font-weight:600" class="num">${cours.length}</div></div>
+      <div class="tile blue"><div class="lab">Élèves suivis</div><div style="font-size:24px;font-weight:600" class="num">${actifs.length}</div></div>
+      <div class="tile ${nonPayes?"rose":""} clickable" data-act="tab" data-v="paiements"><div class="lab">Pas encore payé (${esc(fmtMois(moisKey()))})</div><div style="font-size:24px;font-weight:600" class="num">${nonPayes}</div></div>
+    </div>
+    <div class="card"><h2>Cours du jour</h2>${cours.length?`<div class="list">${cours.map(ligne).join("")}</div>`:`<div class="empty">Aucun cours prévu aujourd'hui.<br><button class="btn sm" style="margin-top:10px" data-act="tab" data-v="eleves">Voir tous les élèves</button></div>`}</div>
+    ${demain.length?`<div class="card"><h2>Demain</h2><div class="list">${demain.map(ligne).join("")}</div></div>`:""}
+    <div class="row"><button class="btn primary" data-act="nouveau">${I.plus}Nouvel élève</button><button class="btn" data-act="tab" data-v="guide">Lire le guide d'utilisation</button></div>
+  </div>`;
+}
+function vGuide(){
+  const etape=(n,t,body)=>`<div class="card stack" style="gap:8px"><div class="row" style="gap:12px;flex-wrap:nowrap;align-items:flex-start"><div class="av" style="background:var(--gold-soft);color:var(--gold)">${n}</div><div style="min-width:0"><h2 style="margin:6px 0 6px">${t}</h2>${body}</div></div></div>`;
+  const ul=a=>`<ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px">${a.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+  return `<div class="stack" style="max-width:720px">
+    <div class="row"><button class="btn ghost sm" data-act="tab" data-v="today">${I.back}Retour</button></div>
+    <div><div class="eyebrow">Guide d'utilisation</div><h1>Le carnet, étape par étape</h1>
+    <p class="muted" style="margin:6px 0 0">Ce carnet est à vous seule : les élèves n'y ont pas accès. Ils reçoivent seulement ce que vous leur envoyez sur WhatsApp.</p></div>
+    ${etape(0,"Installer le carnet sur l'écran d'accueil",ul(["<b>iPhone ou iPad</b> : ouvrez le lien du carnet dans <b>Safari</b>, touchez le bouton Partager (le carré avec une flèche), puis <b>« Sur l'écran d'accueil »</b>.","<b>Android</b> : ouvrez le lien dans <b>Chrome</b>, touchez le menu ⋮, puis <b>« Ajouter à l'écran d'accueil »</b>.","Ensuite, ouvrez toujours le carnet <b>avec l'icône</b> de l'écran d'accueil : c'est là que vos données sont gardées. Si vous l'ouvrez à nouveau depuis le navigateur, vous ne retrouverez pas vos élèves."]))}
+    ${etape(1,"Les réglages, une seule fois",ul(["Ouvrez <b>Réglages</b>.","Écrivez votre nom : il signe les messages et les comptes rendus.","Collez votre <b>lien Zoom</b> : c'est le même pour tous les élèves, il sera mis automatiquement dans les messages.","Vous pouvez modifier les deux messages de bienvenue (enfant et adulte) et la liste des points à travailler."]))}
+    ${etape(2,"Ajouter un élève",ul(["Touchez <b>Nouvel élève</b>.","Remplissez prénom, nom, adulte ou enfant, et le téléphone WhatsApp. Pour un enfant, mettez le nom du parent et son numéro : les messages lui seront adressés.","Ajoutez son ou ses créneaux (jour et heure), la durée et le tarif (par mois ou à la séance).","Touchez <b>Créer la fiche</b>, puis <b>Ouvrir WhatsApp</b> : le message de bienvenue avec le lien Zoom est déjà écrit, il ne reste qu'à l'envoyer."]))}
+    ${etape(3,"Le planning et les objectifs",ul(["Dans la fiche de l'élève, partie <b>Planning et objectifs</b>, touchez <b>Modifier</b>.","Ajoutez les blocs de révision du jour avec leur durée (par exemple 10 min Koursiyou, 15 min An-Nas à Al-Humaza).","Choisissez la sourate de la semaine et écrivez les objectifs, un par ligne.","Touchez <b>Image du planning</b>, puis <b>Partager</b> : choisissez WhatsApp et l'élève (ou le parent). Le bouton <b>Ouvrir WhatsApp</b> envoie aussi un petit message avec le lien Zoom."]))}
+    ${etape(4,"Pendant le cours",ul(["Depuis <b>Aujourd'hui</b> ou la fiche, touchez <b>Commencer</b>. Vous voyez ce qui était prévu et où l'élève en est.","Choisissez le type de cours, puis notez le <b>début</b> et la <b>fin</b> du passage (sourate et verset). Pour la lecture, la fin peut se remplir au moment où l'élève s'arrête : la prochaine fois, la lecture reprendra juste après.","<b>Sourates travaillées</b> : choisissez la sourate et touchez Acquise, En cours ou À revoir.","<b>Points à travailler</b> : choisissez dans la liste, ajoutez si besoin la lettre et le verset, puis <b>Ajouter</b>. « + Nouveau point… » ajoute un point à la liste pour toujours.","<b>Note à la main</b> : écrivez au stylet, en arabe ou en français. Choisissez la couleur, « Annuler » efface le dernier trait.","<b>Captures</b> : faites une capture de la page annotée dans Golden Quran, puis <b>Ajouter des captures</b>."]))}
+    ${etape(5,"Les audios pendant le cours",ul(["Partie <b>Captures et audios</b> : touchez <b>● Enregistrer au micro</b>, parlez ou récitez, puis <b>■ Arrêter</b>. L'audio est ajouté au cours. La première fois, la tablette demande l'autorisation d'utiliser le micro : acceptez.","Vous pouvez aussi <b>Importer un audio</b> déjà enregistré (dictaphone, audio reçu sur WhatsApp).","Ou <b>joindre un audio de votre bibliothèque</b> : choisissez-le dans la liste puis touchez Joindre.","Les audios restent dans le compte rendu du cours. Depuis l'historique de l'élève, vous pouvez les réécouter et les <b>Envoyer</b> sur WhatsApp."]))}
+    ${etape(6,"Terminer le cours et le compte rendu",ul(["Mettez à jour <b>Où on en est maintenant</b> et le <b>Planning de la semaine</b> si besoin.","Écrivez <b>À faire la prochaine fois</b> : c'est la première chose que vous verrez au prochain cours.","Cochez <b>payé</b> si c'est le cas, puis <b>Terminer le cours</b>.","Touchez <b>Créer le PDF</b> : cochez avant ce que vous voulez y mettre (note à la main, captures, note écrite, planning). Le PDF est rangé dans la fiche, puis <b>Partager</b> l'envoie sur WhatsApp.","<b>Envoyer le résumé sur WhatsApp</b> ouvre un message déjà écrit avec le passage, le bilan et ce qu'il faut réviser."]))}
+    ${etape(7,"La bibliothèque : audios, PDF et images",ul(["Ouvrez <b>Bibliothèque</b>. Pour un audio, touchez <b>● Enregistrer au micro</b> ou choisissez un fichier (audio, PDF ou image).","Donnez-lui un titre (par exemple « Quraysh, récitation lente ») et classez-le par sourate ou par thème (tajwid, alphabet…), puis <b>Ajouter</b>.","Vos récitations modèles sont ainsi rangées une fois pour toutes : l'audio de Quraysh enregistré pour un élève peut être envoyé à tous les autres.","Pour envoyer : choisissez l'élève dans « Envoyer à… », touchez <b>Envoyer</b>, puis <b>Partager</b> et choisissez WhatsApp. Le bouton <b>Ouvrir WhatsApp</b> ajoute un petit message si vous le souhaitez.","Vous pouvez aussi envoyer depuis la fiche de l'élève, partie <b>Fichiers envoyés</b>. La fiche garde la liste de tout ce que l'élève a reçu, avec la date."]))}
+    ${etape(8,"Les paiements",ul(["Ouvrez <b>Paiements</b> et choisissez le mois avec les flèches.","Pour un tarif mensuel, touchez <b>Marquer payé</b>. Pour un tarif à la séance, cochez « Séance payée » à la fin de chaque cours.","En haut : ce que vous avez reçu, ce qui était attendu et ce qui reste à recevoir."]))}
+    <div class="card stack" style="gap:8px"><h2 style="margin:0">Bon à savoir</h2>${ul(["Tout est gardé <b>sur cet appareil</b>, rien n'est envoyé sur Internet. Ouvrez toujours le carnet avec l'icône de l'écran d'accueil pour retrouver vos données.","<b>Chaque semaine</b> : <b>Réglages</b> → <b>Faire une sauvegarde</b>, puis rangez le fichier dans Fichiers ou Google Drive. Si la tablette est perdue ou changée, <b>Restaurer une sauvegarde</b> remet tout en place.","Ne videz pas l'historique ou les données du navigateur : cela effacerait le carnet (sauf si vous avez une sauvegarde).","Un élève qui arrête : <b>Marquer comme arrêté</b> le retire des cours du jour sans rien effacer. <b>Supprimer l'élève</b> efface sa fiche et ses cours pour de bon."])}</div>
+  </div>`;
+}
+function vEleves(){
+  const q=(R.q||"").toLowerCase();
+  const list=eleves().filter(e=>!q||(nomComplet(e)+" "+(e.parent||"")).toLowerCase().includes(q));
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><h1>Élèves</h1><button class="btn primary" data-act="nouveau">${I.plus}Nouvel élève</button></div>
+    <input id="q" placeholder="Chercher un élève ou un parent" value="${esc(R.q||"")}" data-input="q">
+    <div class="card">${list.length?`<div class="list">${list.map(e=>`<div class="li clickable" data-act="eleve" data-id="${e.id}"><div class="av">${esc((e.prenom||"?")[0])}</div><div class="grow"><div><b>${esc(nomComplet(e))}</b> <span class="muted small">· ${e.categorie==="enfant"?"enfant"+(e.parent?", parent : "+esc(e.parent):""):"adulte"}</span> ${e.exemple?'<span class="pill gold">exemple</span>':""} ${e.actif===false?'<span class="pill rose">arrêté</span>':""}</div><div class="muted small">${esc(creneauxTxt(e)||"Pas de créneau")} · ${esc(e.ouOnEnEst||"Pas encore de suivi")}</div></div>${moisPaye(e)?'<span class="pill">payé</span>':'<span class="pill rose">à payer</span>'}</div>`).join("")}</div>`:`<div class="empty">${q?"Aucun élève ne correspond.":"Ajoutez votre premier élève : sa fiche, son créneau et son planning."}</div>`}</div>
+  </div>`;
+}
+function derniere(e){return seancesDe(e.id)[0]}
+function vEleve(){
+  const e={id:R.id,...S.eleves[R.id]};if(!S.eleves[R.id])return `<div class="empty">Cet élève n'existe plus. <button class="btn sm" data-act="tab" data-v="eleves">Retour</button></div>`;
+  const d=derniere(e),ss=seancesDe(e.id),zoom=reg().zoom;
+  const parEtat=k=>Object.entries(e.sourates||{}).filter(([,v])=>v===k).map(([n])=>+n).sort((a,b)=>b-a);
+  const bib=Object.entries(S.fichiers).map(([id,f])=>({id,...f})).sort((a,b)=>(a.titre||"").localeCompare(b.titre||"","fr"));
+  const msg=salut(e)+"\n\n"+(zoom?(enf(e)?`Voici le lien Zoom pour les cours de ${e.prenom} :`:"Voici le lien Zoom pour vos cours :")+`\n${zoom}\n\n`:"")+`BarakAllahu fikoum`;
+  return `<div class="stack">
+    <div class="row"><button class="btn ghost sm" data-act="tab" data-v="eleves">${I.back}Élèves</button></div>
+    ${R.bienvenue?`<div class="banner green"><b>Fiche créée.</b> Envoyez le message de bienvenue avec le lien Zoom :<div class="row" style="margin-top:8px"><a class="btn wa" href="${esc(waLink(e.tel,accueil(e)))}" target="_blank" rel="noopener">${I.wa}Ouvrir WhatsApp</a><button class="btn sm ghost" data-act="okbienvenue">Plus tard</button></div></div>`:""}
+    <div class="card"><div class="row" style="align-items:flex-start">
+      <div class="av" style="width:52px;height:52px;font-size:22px">${esc((e.prenom||"?")[0])}</div>
+      <div class="grow" style="flex:1;min-width:0"><h1>${esc(nomComplet(e))} ${e.exemple?'<span class="pill gold">exemple</span>':""}</h1>
+        <div class="muted small">${e.categorie==="enfant"?"Enfant":"Adulte"}${e.parent?" · parent : "+esc(e.parent):""}${e.tel?" · "+esc(e.tel):""}</div>
+        <div class="muted small">${esc(creneauxTxt(e)||"Pas de créneau")}${e.duree?" · "+esc(e.duree)+" min":""}${e.tarif?" · "+euro(e.tarif)+(e.tarifMode==="seance"?" la séance":" par mois"):""}${e.niveau?" · "+esc(e.niveau):""}</div></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary" data-act="cours" data-id="${e.id}">Commencer le cours</button>
+      ${zoom?`<a class="btn" href="${esc(zoom)}" target="_blank" rel="noopener">${I.zoom}Zoom</a>`:""}
+      <a class="btn wa" href="${esc(waLink(e.tel,msg))}" target="_blank" rel="noopener">${I.wa}WhatsApp</a>
+      <button class="btn" data-act="modifier" data-id="${e.id}">Modifier la fiche</button>
+    </div></div>
+    <div class="grid">
+      <div class="tile"><div class="lab">Où on en est</div><div>${esc(e.ouOnEnEst||"—")}</div>${e.reprise?`<div class="small muted">Prochaine lecture : ${esc(sN(e.reprise.s))} ${e.reprise.v}</div>`:""}</div>
+      <div class="tile blue"><div class="lab">À faire la prochaine fois</div><div>${esc(e.aFaire||"—")}</div></div>
+      <div class="tile gold clickable" ${d?`data-act="bilan" data-id="${d.id}"`:""}><div class="lab">Dernière séance</div><div>${d?esc(fmtDate(d.date))+" · "+esc(TYPES[d.type]||""):"Aucune séance"}</div>${d?`<div class="small muted">${esc(resumeCourt(d))}</div>`:""}</div>
+    </div>
+    <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Planning et objectifs</h2><div class="row"><button class="btn sm" data-act="planning" data-id="${e.id}">Modifier</button><button class="btn sm" data-act="imgplanning" data-id="${e.id}">${I.img}Image du planning</button></div></div>
+      ${(e.planning||[]).length?`<div class="row" style="margin-top:10px">${e.planning.map((b,i)=>`<span class="chip" style="background:${BLOC_COULEURS[i%6]};border-color:transparent;color:#1f2a24">${esc(b.min)} min · ${esc(b.titre)}</span>`).join("")}<span class="muted small">Total ${e.planning.reduce((a,b)=>a+(+b.min||0),0)} min par jour</span></div>`:`<p class="muted small">Pas encore de planning.</p>`}
+      ${e.sourateSemaine?`<p class="small" style="margin:8px 0 0">Sourate de la semaine : <b>${esc(sN(e.sourateSemaine))}</b> <span class="ar">${sAr(e.sourateSemaine)}</span></p>`:""}
+      ${(e.objectifs||[]).length?`<ul class="small" style="margin:8px 0 0;padding-left:18px">${e.objectifs.map(o=>`<li dir="auto">${esc(o)}</li>`).join("")}</ul>`:""}
+      ${R.planningPret===e.id?`<div class="banner green" style="margin-top:10px">Image enregistrée. Joignez-la dans WhatsApp avec ce message :<div class="row" style="margin-top:8px"><a class="btn wa" href="${esc(waLink(e.tel,salut(e)+"\n\n"+(enf(e)?`Voici le planning de révision de ${e.prenom}.`:"Voici votre planning de révision.")+(zoom?`\n\nLien Zoom des cours :\n${zoom}`:"")+`\n\nBarakAllahu fikoum`))}" target="_blank" rel="noopener">${I.wa}Ouvrir WhatsApp</a></div></div>`:""}
+    </div>
+    <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Sourates</h2><button class="btn sm" data-act="togglesour">${R.editSour?"Terminé":"Modifier"}</button></div>
+      ${R.editSour?`<p class="muted small">Touchez une sourate pour changer son état : en cours, acquise, à revoir, puis aucun.</p><div class="sgrid">${SOURATES.map((s,i)=>i+1).reverse().map(n=>`<button class="sbtn ${e.sourates&&e.sourates[n]||""}" data-act="cycle" data-n="${n}"><span class="n">${n}</span> ${esc(sN(n))}<br><span class="ar">${sAr(n)}</span>${e.sourates&&e.sourates[n]?` · <span class="small">${ETATS[e.sourates[n]]}</span>`:""}</button>`).join("")}</div>`
+      :["en_cours","acquise","a_revoir"].map(k=>{const l=parEtat(k);return l.length?`<div style="margin-top:10px"><div class="lab small muted">${ETATS[k]} (${l.length})</div><div class="row" style="margin-top:4px">${l.map(n=>`<span class="chip ${ETAT_CHIP[k]}">${esc(sN(n))} <span class="ar">${sAr(n)}</span></span>`).join("")}</div></div>`:""}).join("")||`<p class="muted small">Aucune sourate suivie pour l'instant.</p>`}
+    </div>
+    <div class="card"><h2>Historique des cours</h2>${ss.length?`<div class="list">${ss.map(s=>`<div class="li clickable" data-act="bilan" data-id="${s.id}"><div class="grow"><div><b>${esc(fmtDate(s.date))}</b> · ${esc(TYPES[s.type]||"")} ${s.pdf?'<span class="pill blue">PDF</span>':""} ${s.paye?'<span class="pill">payé</span>':""}</div><div class="muted small">${esc(resumeCourt(s))}</div></div></div>`).join("")}</div>`:`<p class="muted small">Les cours notés apparaîtront ici.</p>`}</div>
+    <div class="card"><h2>Fichiers envoyés</h2>
+      ${(e.envois||[]).length?`<div class="list">${e.envois.slice().reverse().map(v=>`<div class="li"><div class="grow"><b>${esc(v.titre)}</b> <span class="muted small">· ${esc(fmtDate(v.date))}</span></div></div>`).join("")}</div>`:`<p class="muted small">Rien d'envoyé pour l'instant.</p>`}
+      ${bib.length?`<div class="row" style="margin-top:10px"><select id="envoiFichier" style="flex:1;min-width:180px">${bib.map(f=>`<option value="${f.id}">${esc(f.titre)}${f.sourate?" · "+esc(sN(f.sourate)):""}</option>`).join("")}</select><button class="btn" data-act="envoyerfichier" data-id="${e.id}">${I.wa}Envoyer</button></div>`:`<p class="muted small">Ajoutez des audios et PDF dans la Bibliothèque pour les envoyer d'ici.</p>`}
+      ${R.envoiPret&&R.envoiPret.eleve===e.id?`<div class="banner green" style="margin-top:10px">Fichier enregistré sur l'appareil. Joignez-le dans WhatsApp :<div class="row" style="margin-top:8px"><a class="btn wa" href="${esc(waLink(e.tel,R.envoiPret.msg))}" target="_blank" rel="noopener">${I.wa}Ouvrir WhatsApp</a></div></div>`:""}
+    </div>
+    <div class="card"><h2>Notes</h2><p class="small" dir="auto" style="white-space:pre-wrap;margin:0">${esc(e.notes||"—")}</p></div>
+    <div class="row">${R.confirmDel===e.id?`<span class="small">Supprimer ${esc(e.prenom)}, ses cours et ses comptes rendus ? C'est définitif.</span><button class="btn danger" data-act="supprimer" data-id="${e.id}">Oui, supprimer</button><button class="btn" data-act="annulerdel">Annuler</button>`:`<button class="btn danger sm" data-act="askdel" data-id="${e.id}">Supprimer l'élève</button>`}
+      <button class="btn sm" data-act="actif" data-id="${e.id}">${e.actif===false?"Reprendre le suivi":"Marquer comme arrêté"}</button></div>
+  </div>`;
+}
+function optSourates(sel,vide="—"){return `<option value="">${vide}</option>`+SOURATES.map((s,i)=>`<option value="${i+1}" ${+sel===i+1?"selected":""}>${i+1}. ${esc(s[0])} · ${s[1]}</option>`).join("")}
+function vForm(){
+  const e=R.id?S.eleves[R.id]:{categorie:"enfant",creneaux:[{jour:new Date().getDay(),heure:"18:00"}],duree:30,tarifMode:""};
+  const cr=(e.creneaux&&e.creneaux.length?e.creneaux:[{jour:1,heure:""}]);
+  return `<form class="stack" id="fEleve" novalidate>
+    <div class="row"><button type="button" class="btn ghost sm" data-act="${R.id?"eleve":"tab"}" data-id="${R.id||""}" data-v="eleves">${I.back}Annuler</button></div>
+    <h1>${R.id?"Modifier "+esc(nomComplet(e)):"Nouvel élève"}</h1>
+    <div class="card stack">
+      <div class="grid">
+        <label class="f">Prénom<input name="prenom" id="f-prenom" required value="${esc(e.prenom||"")}" placeholder="Mouhamed"></label>
+        <label class="f">Nom<input name="nom" id="f-nom" value="${esc(e.nom||"")}" placeholder="Diallo"></label>
+        <label class="f">Adulte ou enfant<select name="categorie" id="f-cat"><option value="enfant" ${e.categorie==="enfant"?"selected":""}>Enfant</option><option value="adulte" ${e.categorie==="adulte"?"selected":""}>Adulte</option></select></label>
+        <label class="f" id="lab-parent" ${e.categorie==="adulte"?"hidden":""}>Nom du parent<input name="parent" id="f-parent" value="${esc(e.parent||"")}" placeholder="Mme Diallo"></label>
+        <label class="f">Téléphone WhatsApp${e.categorie==="adulte"?"":" du parent"}<input name="tel" id="f-tel" inputmode="tel" value="${esc(e.tel||"")}" placeholder="06 12 34 56 78"></label>
+        <label class="f">Niveau<input name="niveau" id="f-niveau" value="${esc(e.niveau||"")}" placeholder="Lit couramment, révise le juz' Amma"></label>
+        <label class="f">Où on en est<input name="ouOnEnEst" id="f-ou" value="${esc(e.ouOnEnEst||"")}" placeholder="Al-Fil, verset 3"></label>
+      </div>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Créneaux et tarif</h2>
+      <div id="creneaux" class="stack">${cr.map((c,i)=>`<div class="row"><select name="jour${i}" id="f-jour${i}" style="flex:1;min-width:120px">${JOURS.map((j,k)=>`<option value="${k}" ${+c.jour===k?"selected":""}>${j}</option>`).join("")}</select><input type="time" name="heure${i}" id="f-heure${i}" value="${esc(c.heure||"")}" style="flex:1;min-width:110px"></div>`).join("")}</div>
+      <div><button type="button" class="btn sm" data-act="addcreneau">${I.plus}Ajouter un créneau</button></div>
+      <div class="grid">
+        <label class="f">Durée du cours (min)<input type="number" min="5" step="5" name="duree" id="f-duree" value="${esc(e.duree||"")}"></label>
+        <label class="f">Tarif (€)<input type="number" min="0" step="0.5" name="tarif" id="f-tarif" value="${esc(e.tarif||"")}"></label>
+        <label class="f">Paiement<select name="tarifMode" id="f-mode"><option value="" ${!e.tarifMode?"selected":""}>Choisir…</option><option value="mois" ${e.tarifMode==="mois"?"selected":""}>Par mois</option><option value="seance" ${e.tarifMode==="seance"?"selected":""}>À la séance</option></select></label>
+      </div>
+    </div>
+    <div class="card"><label class="f">Notes personnelles<textarea name="notes" id="f-notes" dir="auto" placeholder="Ce que vous voulez retenir sur cet élève">${esc(e.notes||"")}</textarea></label></div>
+    <div class="row"><button class="btn primary" type="submit">${R.id?"Enregistrer":"Créer la fiche"}</button>${!R.id?`<span class="muted small">Vous pourrez ensuite composer son planning et envoyer le message de bienvenue.</span>`:""}</div>
+  </form>`;
+}
+function vPlanning(){
+  const e=S.eleves[R.id];if(!e)return "";
+  const P=R.tmp||(R.tmp={planning:(e.planning||[]).map(b=>({...b})),objectifs:(e.objectifs||[]).join("\n"),sourateSemaine:e.sourateSemaine||""});
+  if(!P.planning.length)P.planning.push({titre:"",min:10});
+  return `<form class="stack" id="fPlanning">
+    <div class="row"><button type="button" class="btn ghost sm" data-act="eleve" data-id="${R.id}">${I.back}Annuler</button></div>
+    <h1>Planning de ${esc(e.prenom)}</h1>
+    <div class="card stack"><h2 style="margin:0">Les blocs de révision du jour</h2>
+      ${P.planning.map((b,i)=>`<div class="row"><span style="width:14px;height:14px;border-radius:4px;background:${BLOC_COULEURS[i%6]};flex-shrink:0"></span><input id="b-t${i}" data-bloc="${i}" data-k="titre" value="${esc(b.titre)}" placeholder="Réviser Koursiyou et Lakad Diakoum" dir="auto" style="flex:3;min-width:160px"><input id="b-m${i}" data-bloc="${i}" data-k="min" type="number" min="1" value="${esc(b.min)}" style="flex:1;min-width:70px;max-width:100px"><span class="small muted">min</span><button type="button" class="btn sm ghost" data-act="delbloc" data-i="${i}" aria-label="Retirer le bloc">✕</button></div>`).join("")}
+      <div class="row"><button type="button" class="btn sm" data-act="addbloc">${I.plus}Ajouter un bloc</button><span class="muted small" id="totalmin">Total : ${P.planning.reduce((a,b)=>a+(+b.min||0),0)} min par jour</span></div>
+      <div class="row small muted">Idées : <button type="button" class="chip" data-act="idee" data-t="Réviser les sourates de An-Nas à Al-Humaza" data-m="15">An-Nas à Al-Humaza</button><button type="button" class="chip" data-act="idee" data-t="Apprendre / réviser la sourate de la semaine" data-m="5">Sourate de la semaine</button><button type="button" class="chip" data-act="idee" data-t="Lecture du Coran" data-m="5">Lecture</button><button type="button" class="chip" data-act="idee" data-t="Ayat al-Kursi" data-m="5">Ayat al-Kursi</button></div>
+    </div>
+    <div class="card stack">
+      <label class="f">Sourate de la semaine<select id="p-sem" name="sourateSemaine">${optSourates(P.sourateSemaine,"Aucune")}</select></label>
+      <label class="f">Objectifs (un par ligne)<textarea id="p-obj" name="objectifs" dir="auto" placeholder="Réviser chaque jour&#10;Apprendre la sourate de la semaine">${esc(P.objectifs)}</textarea></label>
+    </div>
+    <div class="row"><button class="btn primary" type="submit">Enregistrer le planning</button></div>
+  </form>`;
+}
+function vCours(){
+  const D=DRAFT,e=S.eleves[D.eleveId];if(!e)return "";
+  const bib=Object.entries(S.fichiers).filter(([,f])=>f.kind==="audio");
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="annulercours">${I.back}Quitter sans enregistrer</button><span class="chrono" id="chrono">0 min</span></div>
+    <div><div class="eyebrow">Cours en cours</div><h1>${esc(nomComplet(e))}</h1></div>
+    <div class="grid">
+      <div class="tile blue"><div class="lab">Prévu la dernière fois</div>${esc(e.aFaire||"Rien de noté")}</div>
+      <div class="tile"><div class="lab">Où on en est</div>${esc(e.ouOnEnEst||"—")}${e.reprise?`<div class="small muted">Reprise lecture : ${esc(sN(e.reprise.s))} ${e.reprise.v}</div>`:""}</div>
+    </div>
+    <div class="card stack">
+      <div class="seg">${Object.entries(TYPES).map(([k,l])=>`<button class="chip ${D.type===k?"on":""}" data-act="type" data-k="${k}">${l}</button>`).join("")}</div>
+      <div class="grid">
+        <div class="stack" style="gap:6px"><span class="small muted">Début</span><div class="row"><select id="c-ds" data-d="debut.s" style="flex:3;min-width:150px">${optSourates(D.debut.s)}</select><input id="c-dv" data-d="debut.v" type="number" min="1" placeholder="verset" value="${esc(D.debut.v)}" style="flex:1;min-width:80px"></div></div>
+        <div class="stack" style="gap:6px"><span class="small muted">Fin</span><div class="row"><select id="c-fs" data-d="fin.s" style="flex:3;min-width:150px">${optSourates(D.fin.s)}</select><input id="c-fv" data-d="fin.v" type="number" min="1" placeholder="verset" value="${esc(D.fin.v)}" style="flex:1;min-width:80px"></div></div>
+      </div>
+      <p class="small muted" style="margin:0">Vous pouvez remplir la fin au moment où l'élève s'arrête. La prochaine lecture reprendra juste après.</p>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Sourates travaillées</h2>
+      <div class="row"><select id="c-st" style="flex:1;min-width:180px">${optSourates(D.lastS||D.debut.s,"Choisir une sourate")}</select>${Object.entries(ETATS).map(([k,l])=>`<button class="chip ${ETAT_CHIP[k]}" data-act="statut" data-k="${k}">${l}</button>`).join("")}</div>
+      <div class="row">${Object.entries(D.statuts).map(([n,k])=>`<button class="chip ${ETAT_CHIP[k]}" data-act="delstatut" data-n="${n}">${esc(sN(+n))} : ${ETATS[k]} <span class="x">✕</span></button>`).join("")||'<span class="muted small">Aucune pour l\'instant.</span>'}</div>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Points à travailler</h2>
+      <div class="row">
+        <select id="c-err" style="flex:2;min-width:170px">${listeErreurs().map(x=>`<option value="${esc(x)}" ${D.errSel===x?"selected":""}>${esc(x)}</option>`).join("")}<option value="__new" ${D.newErr?"selected":""}>+ Nouveau point…</option></select>
+        <input id="c-el" data-d="el" value="${esc(D.el||"")}" placeholder="Lettre (ع, ح…)" dir="auto" style="flex:1;min-width:100px">
+        <input id="c-ev" data-d="ev" value="${esc(D.ev||"")}" type="number" min="1" placeholder="Verset" style="flex:1;min-width:80px">
+        <button class="btn sm primary" data-act="erreur">Ajouter</button>
+      </div>
+      ${D.newErr?`<div class="row"><input id="c-new" placeholder="Nouveau point, par exemple Tafkhim" dir="auto" style="flex:2;min-width:180px"><button class="btn sm" data-act="saveerr">Ajouter à la liste</button><button class="btn sm ghost" data-act="cancelerr">Annuler</button></div><p class="small muted" style="margin:0">Il sera proposé dans la liste pour tous les prochains cours.</p>`:""}
+      <div class="row">${D.erreurs.map((x,i)=>`<button class="chip err" data-act="delerreur" data-i="${i}">${esc(errTxt(x))} <span class="x">✕</span></button>`).join("")||'<span class="muted small">Aucun point noté.</span>'}</div>
+    </div>
+    <div class="card stack"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Note à la main</h2>
+      <div class="row">${[["#1f2a24","Noir"],["#2f5240","Vert"],["#b3392b","Rouge"],["#2f5677","Bleu"]].map(([c,l])=>`<button class="chip ${PEN.c===c?"on":""}" data-act="pen" data-c="${c}" aria-label="Stylo ${l}"><span style="width:12px;height:12px;border-radius:50%;background:${c};display:inline-block"></span>${l}</button>`).join("")}<button class="chip" data-act="undo">Annuler</button><button class="chip" data-act="clearpad">Effacer</button></div></div>
+      <div class="pad-wrap"><canvas id="pad" aria-label="Zone d'écriture au stylet"></canvas></div>
+      <label class="f">Note écrite (facultatif)<textarea id="c-note" data-d="note" dir="auto" placeholder="Bien progressé, revoir le verset 2">${esc(D.note)}</textarea></label>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Captures et audios</h2>
+      <p class="small muted" style="margin:0">Faites une capture de la page annotée dans Golden Quran, puis ajoutez-la ici. Pour un audio, enregistrez-le avec le dictaphone et importez-le.</p>
+      <div class="row"><label class="btn">${I.img}Ajouter des captures<input type="file" accept="image/*" multiple hidden data-act-change="captures"></label>${peutEnregistrer()?`<button class="btn ${REC?"danger":""}" data-act="rec">${recLabel()}</button>`:""}<label class="btn">${I.play}Importer un audio<input type="file" accept="audio/*,video/mp4,.m4a" hidden data-act-change="audiocours"></label>
+      ${bib.length?`<select id="c-bib" style="flex:1;min-width:160px"><option value="">Joindre un audio de la bibliothèque</option>${bib.map(([id,f])=>`<option value="${id}">${esc(f.titre)}</option>`).join("")}</select><button class="btn sm" data-act="joindrebib">Joindre</button>`:""}</div>
+      ${D.captures.length?`<div class="thumbs">${D.captures.map((c,i)=>`<span class="thumb"><img src="${esc(blobUrl(c))}" alt="Capture"><button class="del" data-act="delcapture" data-i="${i}" aria-label="Retirer la capture">✕</button></span>`).join("")}</div>`:""}
+      ${D.audios.length?`<div class="stack" style="gap:6px">${D.audios.map((a,i)=>`<div class="small">${esc(a.titre)}</div><div class="media-row"><audio controls preload="none" src="${esc(blobUrl(a.id))}"></audio><button class="btn sm ghost" data-act="delaudio" data-i="${i}">✕ Retirer</button></div>`).join("")}</div>`:""}
+    </div>
+    <div class="card stack">
+      <label class="f">Où on en est maintenant<input id="c-ou" data-d="ouOnEnEst" value="${esc(D.ouOnEnEst)}" placeholder="Quraysh, verset 2"></label>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Planning de la semaine</h2>
+      <p class="small muted" style="margin:0">Ce que ${enf(e)?esc(e.prenom)+" doit":"l'élève doit"} réviser chaque jour jusqu'au prochain cours. Il est repris du dernier planning : modifiez-le si besoin.</p>
+      ${D.planning.map((b,i)=>`<div class="row"><span style="width:14px;height:14px;border-radius:4px;background:${BLOC_COULEURS[i%6]};flex-shrink:0"></span><input id="d-t${i}" data-dbloc="${i}" data-k="titre" value="${esc(b.titre)}" placeholder="Réviser Koursiyou et Lakad Diakoum" dir="auto" style="flex:3;min-width:160px"><input id="d-m${i}" data-dbloc="${i}" data-k="min" type="number" min="1" value="${esc(b.min)}" style="flex:1;min-width:70px;max-width:100px"><span class="small muted">min</span><button class="btn sm ghost" data-act="ddelbloc" data-i="${i}" aria-label="Retirer le bloc">✕</button></div>`).join("")}
+      <div class="row"><button class="btn sm" data-act="daddbloc">${I.plus}Ajouter un bloc</button><span class="muted small" id="dtotal">Total : ${D.planning.reduce((a,b)=>a+(+b.min||0),0)} min par jour</span></div>
+      <div class="grid">
+        <label class="f">Sourate de la semaine<select id="d-sem" data-d="sourateSemaine">${optSourates(D.sourateSemaine,"Aucune")}</select></label>
+        <label class="f">Objectifs (un par ligne)<textarea id="d-obj" data-d="objectifs" dir="auto" placeholder="Réviser chaque jour">${esc(D.objectifs)}</textarea></label>
+      </div>
+    </div>
+    <div class="card stack">
+      <label class="f">À faire la prochaine fois<textarea id="c-af" data-d="aFaire" dir="auto" placeholder="Faire réciter Quraysh en entier">${esc(D.aFaire)}</textarea></label>
+      <label class="row small" style="gap:8px"><input type="checkbox" id="c-paye" data-d="paye" style="width:auto" ${D.paye?"checked":""}>${e.tarifMode==="seance"?"Séance payée":"Mois de "+esc(fmtMois(moisKey()))+" payé"}</label>
+    </div>
+    <div class="row"><button class="btn primary" data-act="terminer">Terminer le cours</button><span class="small muted">Tout est rangé dans la fiche, puis vous pourrez créer le compte rendu PDF.</span></div>
+  </div>`;
+}
+function errTxt(x){return x.code+(x.lettre?" "+x.lettre:"")+(x.v?" (v."+x.v+")":"")}
+function nbVersets(d,f){
+  if(!d||!d.s||!f||!f.s)return 0;
+  const a=+d.s,b=+f.s,va=+d.v||1,vb=+f.v||SOURATES[b-1][2];
+  if(a===b)return Math.max(0,vb-va+1);
+  let n=0,step=a<b?1:-1;
+  if(step===1){n+=SOURATES[a-1][2]-va+1;for(let s=a+1;s<b;s++)n+=SOURATES[s-1][2];n+=vb}
+  else{n+=SOURATES[a-1][2]-va+1;for(let s=a-1;s>b;s--)n+=SOURATES[s-1][2];n+=vb}
+  return n;
+}
+function passageTxt(s){
+  if(!s.debut||!s.debut.s)return "";
+  const d=sN(s.debut.s)+(s.debut.v?" "+s.debut.v:"");
+  if(!s.fin||!s.fin.s)return "À partir de "+d;
+  const f=sN(s.fin.s)+(s.fin.v?" "+s.fin.v:"");
+  const n=nbVersets(s.debut,s.fin);
+  return "De "+d+" à "+f+(n?" ("+n+" versets)":"");
+}
+function statutsTxt(s){const g={};Object.entries(s.statuts||{}).forEach(([n,k])=>(g[k]=g[k]||[]).push(sN(+n)));return Object.entries(ETATS).filter(([k])=>g[k]).map(([k,l])=>l+" : "+g[k].join(", ")).join(" · ")}
+function resumeCourt(s){return [passageTxt(s),statutsTxt(s),(s.erreurs||[]).length?"À travailler : "+s.erreurs.map(errTxt).join(", "):""].filter(Boolean).join(" · ")||s.note||"Cours noté"}
+function resumeWa(s,e){
+  const l=[salut(e),"",(enf(e)?`Compte rendu du cours de ${e.prenom} du ${fmtDate(s.date)} :`:`Compte rendu de votre cours du ${fmtDate(s.date)} :`)];
+  if(passageTxt(s))l.push("• Passage : "+passageTxt(s));
+  if(statutsTxt(s))l.push("• "+statutsTxt(s));
+  if((s.erreurs||[]).length)l.push("• À travailler : "+s.erreurs.map(errTxt).join(", "));
+  if(s.aFaire)l.push("• À réviser : "+s.aFaire);
+  if(s.type==="lecture"&&s.fin&&s.fin.s)l.push("• Prochaine lecture : "+repriseTxt(s.fin));
+  l.push("","BarakAllahu fikoum");return l.join("\n");
+}
+function suivant(f){let s=+f.s,v=(+f.v||SOURATES[s-1][2])+1;if(v>SOURATES[s-1][2]){s=s<114?s+1:1;v=1}return {s,v}}
+function repriseTxt(f){const n=suivant(f);return sN(n.s)+" "+n.v}
+function vBilan(){
+  const s=S.seances[R.id];if(!s)return `<div class="empty">Ce cours n'existe plus.</div>`;
+  const e={id:s.eleveId,...(S.eleves[s.eleveId]||{prenom:"Élève supprimé"})};
+  const o=R.opts||(R.opts={dessin:true,captures:true,note:true,planning:true});
+  return `<div class="stack">
+    <div class="row"><button class="btn ghost sm" data-act="eleve" data-id="${e.id}">${I.back}${esc(e.prenom)}</button></div>
+    <div><div class="eyebrow">${esc(fmtLong(s.date))}</div><h1>Cours de ${esc(nomComplet(e))} ·${esc(TYPES[s.type]||"")}</h1></div>
+    ${R.nouveau?`<div class="banner green">Cours enregistré dans la fiche de ${esc(e.prenom)}.</div>`:""}
+    <div class="card stack">
+      ${passageTxt(s)?`<div><div class="small muted">Passage</div>${esc(passageTxt(s))}</div>`:""}
+      ${statutsTxt(s)?`<div><div class="small muted">Bilan</div>${esc(statutsTxt(s))}</div>`:""}
+      ${(s.erreurs||[]).length?`<div><div class="small muted">Points à travailler</div><div class="row" style="margin-top:4px">${s.erreurs.map(x=>`<span class="chip err">${esc(errTxt(x))}</span>`).join("")}</div></div>`:""}
+      ${s.note?`<div><div class="small muted">Note</div><div dir="auto" style="white-space:pre-wrap">${esc(s.note)}</div></div>`:""}
+      ${s.dessin?`<div><div class="small muted">Note à la main</div><span class="thumb" style="display:block;margin-top:4px"><img src="${esc(blobUrl(s.dessin))}" alt="Note manuscrite" style="border:1px solid var(--line);border-radius:8px;background:#fff;display:block">${delBtn("d","Note à la main")}</span></div>`:""}
+      ${(s.captures||[]).length?`<div><div class="small muted">Captures</div><div class="thumbs" style="margin-top:4px">${s.captures.map((c,i)=>`<span class="thumb"><a href="${esc(blobUrl(c))}" target="_blank" rel="noopener"><img src="${esc(blobUrl(c))}" alt="Capture"></a>${delBtn("c"+i,"Capture")}</span>`).join("")}</div></div>`:""}
+      ${(s.audios||[]).length?`<div><div class="small muted">Audios</div>${s.audios.map((a,i)=>`<div class="small">${esc(a.titre)}</div><div class="media-row"><audio controls preload="none" src="${esc(blobUrl(a.id))}"></audio><button class="btn sm" data-act="partageraudio" data-i="${i}">${I.wa}Envoyer</button>${R.confirmDel==="a"+i?`<button class="btn sm danger" data-act="bdel" data-k="a${i}">Confirmer la suppression</button>`:`<button class="btn sm ghost" data-act="askdel" data-id="a${i}">✕ Supprimer</button>`}</div>`).join("")}</div>`:""}
+      ${s.aFaire?`<div><div class="small muted">À faire la prochaine fois</div>${esc(s.aFaire)}</div>`:""}
+      ${s.type==="lecture"&&s.fin&&s.fin.s?`<div><div class="small muted">Prochaine lecture</div>${esc(repriseTxt(s.fin))}</div>`:""}
+    </div>
+    <div class="card stack"><h2 style="margin:0">Compte rendu PDF</h2>
+      <div class="row">${[["dessin","Note à la main"],["captures","Captures"],["note","Note écrite"],["planning","Planning de la semaine"]].map(([k,l])=>`<label class="row small" style="gap:6px"><input type="checkbox" style="width:auto" id="o-${k}" data-opt="${k}" ${o[k]?"checked":""}>${l}</label>`).join("")}</div>
+      <div class="row"><button class="btn primary" data-act="pdf" data-id="${R.id}">${I.pdf}${s.pdf?"Refaire le PDF":"Créer le PDF"}</button>${s.pdf?`<button class="btn" data-act="dlpdf" data-id="${R.id}">Enregistrer le PDF</button><a class="btn ghost" href="${esc(blobUrl(s.pdf))}" target="_blank" rel="noopener">Voir</a>`:""}</div>
+      <p class="small muted" style="margin:0">Le PDF est rangé dans la fiche. Une fois enregistré sur l'appareil, joignez-le dans WhatsApp.</p>
+      <div class="row"><a class="btn wa" href="${esc(waLink(e.tel,resumeWa(s,e)))}" target="_blank" rel="noopener">${I.wa}Envoyer le résumé sur WhatsApp</a></div>
+    </div>
+    <div class="row">${R.confirmDel===R.id?`<span class="small">Supprimer ce cours ?</span><button class="btn danger sm" data-act="delseance" data-id="${R.id}">Oui, supprimer</button><button class="btn sm" data-act="annulerdel">Annuler</button>`:`<button class="btn danger sm" data-act="askdel" data-id="${R.id}">Supprimer ce cours</button>`}</div>
+  </div>`;
+}
+function delBtn(k,quoi){return R.confirmDel===k?`<button class="del on" data-act="bdel" data-k="${k}">Supprimer ?</button>`:`<button class="del" data-act="askdel" data-id="${k}" aria-label="Supprimer : ${quoi}">✕</button>`}
+function vBiblio(){
+  const f=R.filtre||"tous";
+  const list=Object.entries(S.fichiers).map(([id,x])=>({id,...x})).filter(x=>f==="tous"||x.kind===f).sort((a,b)=>(b.cree||"").localeCompare(a.cree||""));
+  const eleveOpts=eleves().map(e=>`<option value="${e.id}">${esc(e.prenom)}</option>`).join("");
+  return `<div class="stack">
+    <h1>Bibliothèque</h1>
+    <p class="muted" style="margin:0">Vos audios, PDF et images, rangés par sourate ou par thème. Chaque fichier peut être envoyé à n'importe quel élève.</p>
+    ${ASSETS||MODE==="local"?`<form class="card stack" id="fFichier"><h2 style="margin:0">Ajouter un fichier</h2>
+      ${peutEnregistrer()?`<div class="row"><button type="button" class="btn ${REC?"danger":""}" data-act="rec">${recLabel()}</button>${R.recBlob?`<audio controls src="${esc(R.recBlob.url)}"></audio><span class="small muted">Enregistrement prêt (${fmtDuree(R.recBlob.dur)}) : donnez-lui un titre puis Ajouter.</span><button type="button" class="btn sm ghost" data-act="jetrec">Jeter</button>`:`<span class="small muted">ou choisissez un fichier ci-dessous</span>`}</div>`:""}
+      <div class="grid"><label class="f">Fichier (audio, PDF ou image)<input type="file" id="ff-file" name="file" accept="audio/*,video/mp4,.m4a,application/pdf,image/*"></label>
+      <label class="f">Titre<input id="ff-titre" name="titre" placeholder="Quraysh, récitation lente" required dir="auto"></label>
+      <label class="f">Sourate (facultatif)<select id="ff-sour" name="sourate">${optSourates("","Aucune")}</select></label>
+      <label class="f">Thème (facultatif)<input id="ff-theme" name="theme" placeholder="Tajwid, alphabet, makhârij"></label></div>
+      <div class="row"><button class="btn primary" type="submit">Ajouter</button><span class="small muted">20 Mo maximum par fichier.</span></div></form>`:`<div class="banner">L'ajout de fichiers n'est pas disponible sur cette vue.</div>`}
+    <div class="seg">${[["tous","Tout"],["audio","Audios"],["pdf","PDF"],["image","Images"]].map(([k,l])=>`<button class="chip ${f===k?"on":""}" data-act="filtre" data-k="${k}">${l}</button>`).join("")}</div>
+    <div class="card">${list.length?`<div class="list">${list.map(x=>`<div class="li" style="flex-wrap:wrap"><div class="grow"><div><b dir="auto">${esc(x.titre)}</b> <span class="pill ${x.kind==="audio"?"blue":x.kind==="pdf"?"rose":"gold"}">${x.kind}</span></div><div class="muted small">${[x.sourate?sN(x.sourate):"",x.theme||""].filter(Boolean).map(esc).join(" · ")||"Sans classement"} · envoyé ${eleves().filter(e=>(e.envois||[]).some(v=>v.fichier===x.id)).length} fois</div>
+      ${x.kind==="audio"?`<audio controls preload="none" src="${esc(blobUrl(x.asset))}"></audio>`:x.kind==="image"?`<img src="${esc(blobUrl(x.asset))}" alt="" style="max-height:120px;border-radius:8px;margin-top:6px">`:`<a class="small" href="${esc(blobUrl(x.asset))}" target="_blank" rel="noopener">Ouvrir le PDF</a>`}</div>
+      <div class="row">${eleveOpts?`<select id="send-${x.id}" style="min-width:140px;width:auto"><option value="">Envoyer à…</option>${eleveOpts}</select><button class="btn sm" data-act="envoyerbib" data-id="${x.id}">${I.wa}Envoyer</button>`:""}
+      ${R.confirmDel===x.id?`<button class="btn sm danger" data-act="delfichier" data-id="${x.id}">Confirmer</button>`:`<button class="btn sm ghost" data-act="askdel" data-id="${x.id}" aria-label="Supprimer">✕</button>`}</div>
+      ${R.envoiPret&&R.envoiPret.fichier===x.id?`<div class="banner green" style="width:100%">Fichier enregistré. Joignez-le dans WhatsApp : <a class="btn wa sm" href="${esc(waLink(R.envoiPret.tel,R.envoiPret.msg))}" target="_blank" rel="noopener">${I.wa}Ouvrir WhatsApp</a></div>`:""}</div>`).join("")}</div>`:`<div class="empty">Ajoutez votre première récitation modèle ou fiche de tajwid.</div>`}</div>
+  </div>`;
+}
+function vPaiements(){
+  const m=R.mois||moisKey();
+  const [y,mm]=m.split("-").map(Number);
+  const prev=moisKey(new Date(y,mm-2,1)),next=moisKey(new Date(y,mm,1));
+  const list=eleves().filter(e=>e.actif!==false);
+  let attendu=0,recu=0;
+  const rows=list.map(e=>{
+    if(e.tarifMode==="seance"){const ss=seancesDe(e.id).filter(s=>s.date.startsWith(m));const p=ss.filter(s=>s.paye).length;const t=+e.tarif||0;attendu+=ss.length*t;recu+=p*t;
+      return `<div class="li"><div class="grow"><b>${esc(e.prenom)}</b> <span class="muted small">· ${euro(t)} la séance</span><div class="small muted">${ss.length} séance(s), ${p} payée(s)</div></div>${ss.length===p?'<span class="pill">à jour</span>':`<span class="pill rose">${euro((ss.length-p)*t)} dû</span>`}</div>`}
+    const k=e.id+"_"+m,p=!!(S.paiements[k]||{}).paye,t=+e.tarif||0;attendu+=t;if(p)recu+=t;
+    return `<div class="li"><div class="grow"><b>${esc(e.prenom)}</b> <span class="muted small">· ${euro(t)} par mois</span>${p&&S.paiements[k].date?`<div class="small muted">Payé le ${esc(fmtDate(S.paiements[k].date))}</div>`:""}</div><button class="chip ${p?"acq":""}" data-act="payer" data-id="${e.id}" data-m="${m}">${p?"Payé ✓":"Marquer payé"}</button></div>`;
+  });
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><h1>Paiements</h1><div class="row"><button class="btn sm" data-act="mois" data-m="${prev}" aria-label="Mois précédent">‹</button><b style="text-transform:capitalize">${esc(fmtMois(m))}</b><button class="btn sm" data-act="mois" data-m="${next}" aria-label="Mois suivant">›</button></div></div>
+    <div class="split"><div class="tile"><div class="lab">Reçu</div><div style="font-size:22px;font-weight:600" class="num">${euro(recu)}</div></div><div class="tile gold"><div class="lab">Attendu</div><div style="font-size:22px;font-weight:600" class="num">${euro(attendu)}</div></div><div class="tile rose"><div class="lab">Reste à recevoir</div><div style="font-size:22px;font-weight:600" class="num">${euro(attendu-recu)}</div></div></div>
+    <div class="card">${rows.length?`<div class="list">${rows.join("")}</div>`:`<div class="empty">Les élèves suivis apparaîtront ici avec leur tarif.</div>`}</div>
+    <p class="small muted">Pour les élèves payés à la séance, cochez « Séance payée » à la fin du cours.</p>
+  </div>`;
+}
+function vReglages(){
+  const r=reg();
+  const nbEx=eleves().filter(e=>e.exemple).length;
+  return `<form class="stack" id="fReglages">
+    <h1>Réglages</h1>
+    <div class="card stack">
+      <label class="f">Votre nom (signature des messages et des PDF)<input id="r-nom" name="profNom" value="${esc(r.profNom||"")}" placeholder="Oustadha Aïcha"></label>
+      <label class="f">Votre lien Zoom (le même pour tous les élèves)<input id="r-zoom" name="zoom" value="${esc(r.zoom||"")}" placeholder="https://zoom.us/j/1234567890" inputmode="url"></label>
+      <div class="grid">
+        <label class="f">Message de bienvenue · enfant (envoyé au parent)<textarea id="r-acc" name="accueil" style="min-height:170px" dir="auto">${esc(r.accueil||DEFAUT_ACCUEIL)}</textarea></label>
+        <label class="f">Message de bienvenue · adulte<textarea id="r-acca" name="accueilAdulte" style="min-height:170px" dir="auto">${esc(r.accueilAdulte||DEFAUT_ACCUEIL_ADULTE)}</textarea></label>
+      </div>
+      <p class="small muted" style="margin:0">Mots remplacés automatiquement : {prenom}, {parent}, {creneau}, {zoom}, {prof}.</p>
+      <label class="f">Points à travailler proposés pendant le cours (un par ligne)<textarea id="r-err" name="erreurs" style="min-height:150px" dir="auto">${esc(listeErreurs().join("\n"))}</textarea></label>
+      <div><button class="btn primary" type="submit">Enregistrer</button></div>
+    </div>
+    <div class="card stack"><h2 style="margin:0">Vos données</h2>
+      <p class="small" style="margin:0">${MODE==="db"?"Vos données sont enregistrées en ligne, visibles par vous seule. Vous les retrouvez sur la tablette, le téléphone et l'ordinateur.":"Vos élèves, vos cours, vos audios et vos PDF sont gardés <b>sur cette tablette uniquement</b>, dans ce navigateur. Faites une sauvegarde chaque semaine et gardez-la dans Fichiers ou Google Drive : si la tablette est perdue ou le navigateur vidé, c'est elle qui permet de tout récupérer."}</p>
+      ${R.importData?`<div class="banner">Remplacer toutes les données de cette tablette par la sauvegarde du ${esc(fmtLong(R.importData.exporte||new Date().toISOString()))} (${Object.keys(R.importData.data.eleves||{}).length} élèves) ?<div class="row" style="margin-top:8px"><button type="button" class="btn danger" data-act="importok">Oui, restaurer</button><button type="button" class="btn" data-act="importnon">Annuler</button></div></div>`:""}
+      <div class="row"><button type="button" class="btn" data-act="export">Faire une sauvegarde</button>${MODE!=="db"?`<label class="btn">Restaurer une sauvegarde<input type="file" accept=".json,application/json" hidden data-act-change="import"></label>`:""}${nbEx?`<button type="button" class="btn danger" data-act="delexemples">Supprimer les ${nbEx} élèves d'exemple</button>`:""}</div>
+    </div>
+  </form>`;
+}
+
+/* ---------- actions ---------- */
+const ACT={
+ tab:d=>go(d.v),
+ eleve:d=>go("eleve",{id:d.id}),
+ nouveau:()=>go("form",{}),
+ modifier:d=>go("form",{id:d.id}),
+ planning:d=>go("planning",{id:d.id}),
+ okbienvenue:()=>{R.bienvenue=false;render(true)},
+ askdel:d=>{R.confirmDel=d.id;render(true)},
+ annulerdel:()=>{R.confirmDel=null;render(true)},
+ togglesour:()=>{R.editSour=!R.editSour;render(true)},
+ cycle:d=>{const e=S.eleves[R.id],n=d.n,ord=[undefined,"en_cours","acquise","a_revoir"];const s={...(e.sourates||{})};const i=ord.indexOf(s[n]);const nv=ord[(i+1)%4];if(nv)s[n]=nv;else delete s[n];save("eleves",R.id,{...e,sourates:s});render(true)},
+ actif:d=>{const e=S.eleves[d.id];save("eleves",d.id,{...e,actif:e.actif===false});render(true)},
+ supprimer:async d=>{
+   const ss=seancesDe(d.id);
+   for(const s of ss){await purgeSeanceAssets(s);remove("seances",s.id)}
+   Object.keys(S.paiements).filter(k=>k.startsWith(d.id+"_")).forEach(k=>remove("paiements",k));
+   remove("eleves",d.id);toast("Élève supprimé.");go("eleves");
+ },
+ addcreneau:()=>{const box=$("#creneaux"),i=box.children.length;box.insertAdjacentHTML("beforeend",`<div class="row"><select name="jour${i}" id="f-jour${i}" style="flex:1;min-width:120px">${JOURS.map((j,k)=>`<option value="${k}">${j}</option>`).join("")}</select><input type="time" name="heure${i}" id="f-heure${i}" style="flex:1;min-width:110px"></div>`)},
+ addbloc:()=>{R.tmp.planning.push({titre:"",min:5});render(true)},
+ delbloc:d=>{R.tmp.planning.splice(+d.i,1);render(true)},
+ idee:d=>{const P=R.tmp;const vide=P.planning.findIndex(b=>!b.titre);if(vide>=0)P.planning[vide]={titre:d.t,min:+d.m};else P.planning.push({titre:d.t,min:+d.m});render(true)},
+ imgplanning:async d=>{const e={id:d.id,...S.eleves[d.id]};if(!(e.planning||[]).length){toast("Composez d'abord le planning.");return}toast("Préparation de l'image…");const c=await dessinerPlanning(e);const blob=await new Promise(r=>c.toBlob(r,"image/png"));if(await saveFile(`Planning ${e.prenom}.png`,blob)){logEnvoi(e.id,{titre:"Planning de révision",date:new Date().toISOString(),kind:"planning"});R.planningPret=e.id;render(true)}},
+ envoyerfichier:async d=>{const fid=$("#envoiFichier").value;await envoyer(fid,d.id)},
+ envoyerbib:async d=>{const eid=$("#send-"+d.id).value;if(!eid){toast("Choisissez un élève.");return}await envoyer(d.id,eid)},
+ filtre:d=>{R.filtre=d.k;render(true)},
+ delfichier:async d=>{const f=S.fichiers[d.id];await delAsset(f.asset);remove("fichiers",d.id);R.confirmDel=null;render(true)},
+ partager:()=>{if(!OFFRE)return;navigator.share({files:[OFFRE.file]}).then(()=>{$("#offre").hidden=true}).catch(e=>{if(e&&e.name!=="AbortError")toast("Partage impossible. Utilisez « Enregistrer ».")})},
+ telecharger:()=>{if(!OFFRE)return;const a=document.createElement("a");a.href=URL.createObjectURL(OFFRE.file);a.download=OFFRE.filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);$("#offre").hidden=true},
+ fermeroffre:()=>{$("#offre").hidden=true},
+ rec:()=>toggleRec(),
+ delcapture:async d=>{const [id]=DRAFT.captures.splice(+d.i,1);await delAsset(id);render(true)},
+ delaudio:async d=>{const [a]=DRAFT.audios.splice(+d.i,1);if(a&&a.propre)await delAsset(a.id);render(true)},
+ bdel:async d=>{
+   const s={...S.seances[R.id]},k=d.k;
+   if(k==="d"){await delAsset(s.dessin);s.dessin=null}
+   else if(k[0]==="c"){const c=[...(s.captures||[])];const [id]=c.splice(+k.slice(1),1);await delAsset(id);s.captures=c}
+   else if(k[0]==="a"){const a=[...(s.audios||[])];const [x]=a.splice(+k.slice(1),1);if(x&&x.propre)await delAsset(x.id);s.audios=a}
+   save("seances",R.id,s);R.confirmDel=null;toast("Supprimé. Refaites le PDF si besoin.");render(true)},
+ partageraudio:async d=>{const s=S.seances[R.id],a=s.audios[+d.i];try{const b=await (await fetch(blobUrl(a.id))).blob();await saveFile(`${a.titre}.${a.ext||(MODE==="db"?"mp4":"m4a")}`,b)}catch(e){toast("Audio introuvable.")}},
+ jetrec:()=>{R.recBlob=null;render(true)},
+ importok:()=>importer(),
+ importnon:()=>{R.importData=null;render(true)},
+ payer:d=>{const k=d.id+"_"+d.m,p=S.paiements[k];if(p&&p.paye)remove("paiements",k);else save("paiements",k,{eleveId:d.id,mois:d.m,paye:true,montant:+(S.eleves[d.id].tarif||0),date:new Date().toISOString()});render(true)},
+ mois:d=>{R.mois=d.m;render(true)},
+ export:()=>exporter(),
+ delexemples:async()=>{for(const e of eleves().filter(e=>e.exemple)){for(const s of seancesDe(e.id))remove("seances",s.id);Object.keys(S.paiements).filter(k=>k.startsWith(e.id+"_")).forEach(k=>remove("paiements",k));remove("eleves",e.id)}toast("Exemples supprimés.");render(true)},
+ /* cours */
+ cours:d=>{const e=S.eleves[d.id];const rep=e.reprise;DRAFT={eleveId:d.id,type:rep?"lecture":"memo",debut:rep?{s:rep.s,v:rep.v}:{s:e.sourateSemaine||"",v:""},fin:{s:"",v:""},statuts:{},erreurs:[],note:"",strokes:[],captures:[],audios:[],ouOnEnEst:e.ouOnEnEst||"",aFaire:"",paye:false,start:Date.now(),lastS:e.sourateSemaine||"",planning:(e.planning||[]).map(b=>({...b})),objectifs:(e.objectifs||[]).join("\n"),sourateSemaine:e.sourateSemaine||"",errSel:listeErreurs()[0],newErr:false,el:"",ev:""};if(!DRAFT.planning.length)DRAFT.planning.push({titre:"",min:10});go("cours")},
+ annulercours:()=>{if(R.confirmQuit){const id=DRAFT.eleveId;DRAFT=null;go("eleve",{id})}else{R.confirmQuit=true;toast("Touchez encore pour quitter sans enregistrer.");setTimeout(()=>R.confirmQuit=false,3000)}},
+ type:d=>{DRAFT.type=d.k;render(true)},
+ statut:d=>{const n=$("#c-st").value;if(!n){toast("Choisissez une sourate.");return}DRAFT.statuts[n]=d.k;DRAFT.lastS=n;render(true)},
+ delstatut:d=>{delete DRAFT.statuts[d.n];render(true)},
+ erreur:()=>{
+   const code=$("#c-err").value;if(!code||code==="__new"){toast("Choisissez un point dans la liste.");return}
+   const x={code,lettre:(DRAFT.el||"").trim(),v:String(DRAFT.ev||"").trim()};
+   if(DRAFT.erreurs.some(y=>y.code===x.code&&(y.lettre||"")===x.lettre&&String(y.v||"")===x.v)){toast("« "+errTxt(x)+" » est déjà noté.");return}
+   DRAFT.erreurs.push(x);DRAFT.errSel=code;DRAFT.el="";DRAFT.ev="";render(true)},
+ saveerr:()=>{const v=($("#c-new").value||"").trim();if(!v){toast("Écrivez le nom du point.");return}
+   const l=listeErreurs();if(!l.some(x=>x.toLowerCase()===v.toLowerCase()))save("reglages","main",{...reg(),erreurs:[...l,v]});
+   DRAFT.errSel=l.find(x=>x.toLowerCase()===v.toLowerCase())||v;DRAFT.newErr=false;toast("« "+v+" » ajouté à la liste.");render(true)},
+ cancelerr:()=>{DRAFT.newErr=false;render(true)},
+ daddbloc:()=>{DRAFT.planning.push({titre:"",min:5});render(true)},
+ ddelbloc:d=>{DRAFT.planning.splice(+d.i,1);render(true)},
+ delerreur:d=>{DRAFT.erreurs.splice(+d.i,1);render(true)},
+ pen:d=>{PEN.c=d.c;document.querySelectorAll('[data-act="pen"]').forEach(b=>b.classList.toggle("on",b.dataset.c===d.c))},
+ undo:()=>{DRAFT.strokes.pop();redrawPad()},
+ clearpad:()=>{DRAFT.strokes=[];redrawPad()},
+ joindrebib:()=>{const id=$("#c-bib").value;if(!id)return;const f=S.fichiers[id];DRAFT.audios.push({id:f.asset,titre:f.titre});render(true)},
+ terminer:()=>terminerCours(),
+ bilan:d=>go("bilan",{id:d.id}),
+ delseance:async d=>{const s=S.seances[d.id];await purgeSeanceAssets({id:d.id,...s});remove("seances",d.id);go("eleve",{id:s.eleveId})},
+ pdf:d=>creerPdf(d.id),
+ dlpdf:async d=>{const s=S.seances[d.id],e=S.eleves[s.eleveId]||{prenom:"eleve"};try{const b=await (await fetch(blobUrl(s.pdf))).blob();await saveFile(`Compte rendu ${e.prenom} ${s.date.slice(0,10)}.pdf`,b)}catch(x){toast("PDF introuvable, recréez-le.")}}
+};
+document.addEventListener("pointerdown",ev=>{const o=$("#offre");if(!o.hidden&&!o.contains(ev.target))o.hidden=true},true);
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape")$("#offre").hidden=true});
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-act]");if(!b||b.tagName==="INPUT")return;const f=ACT[b.dataset.act];if(f){ev.preventDefault();f(b.dataset,b,ev)}});
+document.addEventListener("input",ev=>{
+  const t=ev.target;
+  if(t.getAttribute("aria-invalid")){t.removeAttribute("aria-invalid");const n=t.nextElementSibling;if(n&&n.classList.contains("ferr"))n.remove()}
+  if(t.dataset.input==="q"){R.q=t.value;const pos=t.selectionStart;render(true);const q=$("#q");q.focus();q.setSelectionRange(pos,pos);return}
+  if(t.dataset.bloc!==undefined){R.tmp.planning[+t.dataset.bloc][t.dataset.k]=t.dataset.k==="min"?+t.value:t.value;const tm=$("#totalmin");if(tm)tm.textContent="Total : "+R.tmp.planning.reduce((a,b)=>a+(+b.min||0),0)+" min par jour";return}
+  if(t.dataset.dbloc!==undefined&&DRAFT){DRAFT.planning[+t.dataset.dbloc][t.dataset.k]=t.dataset.k==="min"?+t.value:t.value;const tm=$("#dtotal");if(tm)tm.textContent="Total : "+DRAFT.planning.reduce((a,b)=>a+(+b.min||0),0)+" min par jour";return}
+  if(t.dataset.d&&DRAFT){const p=t.dataset.d.split(".");const v=t.type==="checkbox"?t.checked:t.value;if(p.length===2)DRAFT[p[0]][p[1]]=v;else DRAFT[p[0]]=v;if(t.dataset.d==="debut.s"&&!DRAFT.lastS)DRAFT.lastS=v}
+  if(t.dataset.opt&&R.opts){R.opts[t.dataset.opt]=t.checked}
+  if(R.tmp&&t.id==="p-obj")R.tmp.objectifs=t.value;
+});
+document.addEventListener("change",async ev=>{
+  const t=ev.target;
+  if(t.id==="f-cat"){const enfant=t.value==="enfant";$("#lab-parent").hidden=!enfant;const tl=$("#f-tel").parentElement.firstChild;tl.textContent="Téléphone WhatsApp"+(enfant?" du parent":"")}
+  if(t.dataset.d&&DRAFT&&t.type==="checkbox")DRAFT[t.dataset.d]=t.checked;
+  if(t.dataset.d&&DRAFT&&t.tagName==="SELECT"){const p=t.dataset.d.split(".");if(p.length===2)DRAFT[p[0]][p[1]]=t.value;else DRAFT[p[0]]=t.value}
+  if(t.id==="c-err"&&DRAFT){if(t.value==="__new"){DRAFT.newErr=true;render(true);const n=$("#c-new");if(n)n.focus()}else{DRAFT.errSel=t.value;if(DRAFT.newErr){DRAFT.newErr=false;render(true)}}}
+  if(R.tmp&&t.id==="p-sem")R.tmp.sourateSemaine=t.value;
+  if(t.dataset.opt&&R.opts)R.opts[t.dataset.opt]=t.checked;
+  const a=t.dataset.actChange;if(!a)return;
+  const files=[...t.files];if(!files.length)return;
+  if(a==="captures"){toast("Envoi des captures…");for(const f of files){try{DRAFT.captures.push(await upload(await reduireImage(f),"image/jpeg"))}catch(e){toast("Capture non ajoutée ("+(e.code||e.message||"erreur")+").")}}render(true)}
+  if(a==="audiocours"){const f=files[0];toast("Ajout de l'audio…");try{const id=await upload(f,typeAudio(f));DRAFT.audios.push({id,titre:f.name.replace(/\.[^.]+$/,""),propre:true,ext:extAudio(f)});render(true)}catch(e){toast("Audio non ajouté ("+(e.code||e.message||"erreur")+").")}}
+  if(a==="import"){try{const d=JSON.parse(await files[0].text());if(d.app!=="carnet-coran"||!d.data)throw 0;R.importData=d;render(true)}catch(e){toast("Ce fichier n'est pas une sauvegarde du carnet.")}t.value=""}
+});
+document.addEventListener("submit",async ev=>{
+  ev.preventDefault();const f=ev.target,fd=new FormData(f);
+  if(f.id==="fEleve"){
+    const cr=[];for(let i=0;i<20;i++){if(!fd.has("jour"+i))break;if(fd.get("heure"+i))cr.push({jour:+fd.get("jour"+i),heure:fd.get("heure"+i)})}
+    const base=R.id?S.eleves[R.id]:{cree:new Date().toISOString(),actif:true,sourates:{},planning:[],objectifs:[],envois:[]};
+    f.querySelectorAll(".ferr").forEach(x=>x.remove());f.querySelectorAll("[aria-invalid]").forEach(x=>x.removeAttribute("aria-invalid"));
+    const errs=[];const err=(id,msg)=>{const el=$("#"+id);el.setAttribute("aria-invalid","true");el.insertAdjacentHTML("afterend",`<span class="ferr">${msg}</span>`);errs.push(el)};
+    if(!fd.get("prenom").trim())err("f-prenom","Indiquez le prénom.");
+    if(!fd.get("nom").trim())err("f-nom","Indiquez le nom.");
+    if(fd.get("categorie")==="enfant"&&!fd.get("parent").trim())err("f-parent","Pour un enfant, indiquez le nom du parent.");
+    if(!telWa(fd.get("tel")))err("f-tel","Indiquez le numéro WhatsApp.");
+    if(fd.get("tarif")===""||+fd.get("tarif")<0)err("f-tarif","Indiquez le tarif (0 si le cours est gratuit).");
+    if(!fd.get("tarifMode"))err("f-mode","Choisissez par mois ou à la séance.");
+    if(!cr.length)err("f-heure0","Indiquez l'heure d'au moins un créneau.");
+    if(errs.length){errs[0].scrollIntoView({block:"center",behavior:"smooth"});errs[0].focus();toast("Il manque des informations dans la fiche.");return}
+    const data={...base,prenom:fd.get("prenom").trim(),nom:fd.get("nom").trim(),categorie:fd.get("categorie"),parent:fd.get("categorie")==="enfant"?fd.get("parent").trim():"",tel:fd.get("tel").trim(),niveau:fd.get("niveau").trim(),ouOnEnEst:fd.get("ouOnEnEst").trim(),creneaux:cr,duree:+fd.get("duree")||null,tarif:+fd.get("tarif")||0,tarifMode:fd.get("tarifMode"),notes:fd.get("notes")};
+    const id=R.id||uid();save("eleves",id,data);
+    if(R.id){toast("Fiche enregistrée.");go("eleve",{id})}else go("eleve",{id,bienvenue:true});
+  }
+  if(f.id==="fPlanning"){
+    const e=S.eleves[R.id],P=R.tmp;
+    save("eleves",R.id,{...e,planning:P.planning.filter(b=>b.titre.trim()).map(b=>({titre:b.titre.trim(),min:+b.min||0})),objectifs:P.objectifs.split("\n").map(s=>s.trim()).filter(Boolean),sourateSemaine:+P.sourateSemaine||null});
+    toast("Planning enregistré.");go("eleve",{id:R.id});
+  }
+  if(f.id==="fReglages"){save("reglages","main",{...reg(),profNom:fd.get("profNom").trim(),zoom:fd.get("zoom").trim(),accueil:fd.get("accueil"),accueilAdulte:fd.get("accueilAdulte"),erreurs:[...new Set(fd.get("erreurs").split("\n").map(s=>s.trim()).filter(Boolean))]});toast("Réglages enregistrés.");render(true)}
+  if(f.id==="fFichier"&&R.recBlob&&!(fd.get("file")&&fd.get("file").size)){
+    if(!fd.get("titre").trim()){toast("Donnez un titre à l'enregistrement.");return}
+    try{const asset=await upload(R.recBlob.blob);save("fichiers",uid(),{titre:fd.get("titre").trim(),kind:"audio",asset,ext:R.recBlob.ext,sourate:+fd.get("sourate")||null,theme:fd.get("theme").trim(),cree:new Date().toISOString()});R.recBlob=null;toast("Enregistrement ajouté.");render(true)}catch(e){toast("Enregistrement non ajouté.")}
+    return;
+  }
+  if(f.id==="fFichier"){
+    const file=fd.get("file");if(!file||!file.size){toast("Choisissez un fichier"+(peutEnregistrer()?" ou enregistrez au micro.":"."));return}
+    const kind=/pdf/.test(file.type)||/\.pdf$/i.test(file.name)?"pdf":/^image\//.test(file.type)?"image":"audio";
+    const btn=f.querySelector('[type=submit]');btn.disabled=true;btn.textContent="Envoi…";
+    try{const asset=await upload(kind==="image"?await reduireImage(file):file,kind==="audio"?typeAudio(file):kind==="pdf"?"application/pdf":"image/jpeg");
+      save("fichiers",uid(),{titre:fd.get("titre").trim(),kind,asset,ext:kind==="audio"?extAudio(file):kind==="pdf"?"pdf":"jpg",sourate:+fd.get("sourate")||null,theme:fd.get("theme").trim(),cree:new Date().toISOString()});toast("Fichier ajouté.");render(true)}
+    catch(e){toast("Fichier non ajouté ("+(e.code==="too_large"?"plus de 20 Mo":e.code||e.message||"erreur")+").");btn.disabled=false;btn.textContent="Ajouter"}
+  }
+});
+function typeAudio(f){return /webm|ogg/i.test(f.type+f.name)?"video/webm":"video/mp4"}
+function extAudio(f){if(MODE!=="db"){const m=(f.name||"").match(/\.([a-z0-9]{2,4})$/i);if(m)return m[1].toLowerCase();return /webm/.test(f.type)?"webm":"m4a"}return /webm|ogg/i.test(f.type+f.name)?"webm":"mp4"}
+async function reduireImage(file,max=1800){
+  try{const bmp=await createImageBitmap(file);const k=Math.min(1,max/Math.max(bmp.width,bmp.height));const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,"image/jpeg",.85))}catch(e){return file}
+}
+function logEnvoi(eid,v){const e=S.eleves[eid];if(!e)return;save("eleves",eid,{...e,envois:[...(e.envois||[]),v].slice(-200)})}
+async function envoyer(fid,eid){
+  const f=S.fichiers[fid],e=S.eleves[eid];if(!f||!e)return;
+  try{const blob=await (await fetch(blobUrl(f.asset))).blob();
+    const ok=await saveFile(`${f.titre}.${f.ext||"mp4"}`,blob);if(!ok)return;
+    logEnvoi(eid,{titre:f.titre,fichier:fid,date:new Date().toISOString(),kind:f.kind});
+    R.envoiPret={eleve:eid,fichier:fid,tel:e.tel,msg:salut(e)+"\n\n"+(enf(e)?`Voici « ${f.titre} » pour ${e.prenom}.`:`Voici « ${f.titre} ».`)+"\n\nBarakAllahu fikoum"};render(true);
+  }catch(x){toast("Fichier introuvable.")}
+}
+async function purgeSeanceAssets(s){for(const id of [s.dessin,s.pdf,...(s.captures||[]),...(s.audios||[]).filter(a=>a.propre).map(a=>a.id)])await delAsset(id)}
+
+/* ---------- enregistrement au micro (fichier ouvert sur la tablette) ---------- */
+let REC=null;
+const peutEnregistrer=()=>MODE!=="db"&&!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
+const recLabel=()=>REC?`■ Arrêter <span id="rectime">${fmtDuree((Date.now()-REC.start)/1000)}</span>`:"● Enregistrer au micro";
+const fmtDuree=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+async function toggleRec(){
+  if(REC){REC.mr.stop();return}
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast("Micro refusé. Autorisez le micro pour cette page, ou importez un audio du dictaphone.");return}
+  const mr=new MediaRecorder(stream),chunks=[],ctx=R.view;
+  REC={mr,start:Date.now(),t:setInterval(()=>{const el=$("#rectime");if(el&&REC)el.textContent=fmtDuree((Date.now()-REC.start)/1000)},500)};
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  mr.onstop=async()=>{
+    stream.getTracks().forEach(t=>t.stop());clearInterval(REC.t);const dur=(Date.now()-REC.start)/1000;REC=null;
+    const type=mr.mimeType||(chunks[0]&&chunks[0].type)||"audio/mp4";const blob=new Blob(chunks,{type});
+    const ext=/webm/.test(type)?"webm":/ogg/.test(type)?"ogg":"m4a";
+    const nom="Enregistrement "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    if(ctx==="cours"&&DRAFT){try{const id=await upload(blob);DRAFT.audios.push({id,titre:nom+" ("+fmtDuree(dur)+")",propre:true,ext})}catch(e){toast("Audio non gardé.")}render(true)}
+    else{R.recBlob={blob,ext,dur,url:URL.createObjectURL(blob)};render(true)}
+  };
+  mr.start(1000);render(true);
+}
+
+/* ---------- sauvegarde complète ---------- */
+async function exporter(){
+  const files={};
+  if(IDB){for(const k of Object.keys(URLS)){try{const b=await (await fetch(URLS[k])).blob();files[k]=await new Promise((ok,ko)=>{const fr=new FileReader();fr.onload=()=>ok(fr.result);fr.onerror=ko;fr.readAsDataURL(b)})}catch(e){}}}
+  const blob=new Blob([JSON.stringify({app:"carnet-coran",version:1,exporte:new Date().toISOString(),data:S,files})],{type:"application/json"});
+  if(await saveFile(`Sauvegarde carnet coran ${new Date().toISOString().slice(0,10)}.json`,blob))toast("Sauvegarde prête.");
+}
+async function importer(){
+  const d=R.importData;if(!d)return;
+  toast("Restauration…");
+  for(const k of Object.keys(URLS))await delAsset(k);
+  if(IDB){for(const [k,v] of Object.entries(d.files||{})){try{const b=await (await fetch(v)).blob();await idb("files","readwrite",st=>st.put(b,k.slice(4)));URLS[k]=URL.createObjectURL(b)}catch(e){}}}
+  COLS.forEach(c=>{S[c]=(d.data&&d.data[c])||{};persistLocal(c)});
+  R.importData=null;toast("Sauvegarde restaurée.");go("today");
+}
+
+/* ---------- chrono ---------- */
+function startChrono(){stopChrono();const t=()=>{const el=$("#chrono");if(el&&DRAFT)el.textContent=Math.floor((Date.now()-DRAFT.start)/60000)+" min"};t();CHRONO=setInterval(t,15000)}
+function stopChrono(){if(CHRONO)clearInterval(CHRONO);CHRONO=null}
+
+/* ---------- zone d'écriture ---------- */
+function setupPad(){
+  const cv=$("#pad");if(!cv)return;
+  const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+  PAD={cv,ctx:cv.getContext("2d"),dpr,w:r.width,h:r.height,cur:null,pen:false};
+  redrawPad();
+  cv.onpointerdown=e=>{if(e.pointerType==="pen")PAD.pen=true;if(PAD.pen&&e.pointerType==="touch")return;cv.setPointerCapture(e.pointerId);PAD.cur={c:PEN.c,w:PEN.w,ratio:PAD.h/PAD.w,p:[pt(e)]};DRAFT.strokes.push(PAD.cur);e.preventDefault()};
+  cv.onpointermove=e=>{if(!PAD.cur)return;const co=e.getCoalescedEvents?e.getCoalescedEvents():[],evs=co.length?co:[e];evs.forEach(x=>PAD.cur.p.push(pt(x)));drawStroke(PAD.ctx,PAD.cur,PAD.w*PAD.dpr,PAD.h*PAD.dpr,PAD.dpr,true);e.preventDefault()};
+  cv.onpointerup=cv.onpointercancel=()=>{PAD.cur=null};
+  function pt(e){const b=cv.getBoundingClientRect();return [(e.clientX-b.left)/b.width,(e.clientY-b.top)/b.height,e.pressure||.5]}
+}
+window.addEventListener("resize",()=>{if(R.view==="cours"&&PAD){clearTimeout(setupPad.t);setupPad.t=setTimeout(setupPad,150)}});
+function redrawPad(){if(!PAD)return;const{ctx,cv}=PAD;ctx.clearRect(0,0,cv.width,cv.height);DRAFT.strokes.forEach(s=>drawStroke(ctx,s,cv.width,cv.height,PAD.dpr))}
+function drawStroke(ctx,s,W,H,scale,last){
+  ctx.strokeStyle=s.c;ctx.lineCap="round";ctx.lineJoin="round";
+  const p=s.p;if(p.length===1){ctx.fillStyle=s.c;ctx.beginPath();ctx.arc(p[0][0]*W,p[0][1]*H,s.w*scale*.6,0,7);ctx.fill();return}
+  const start=last?Math.max(1,p.length-6):1;
+  for(let i=start;i<p.length;i++){ctx.lineWidth=s.w*scale*(.55+p[i][2]);ctx.beginPath();ctx.moveTo(p[i-1][0]*W,p[i-1][1]*H);ctx.lineTo(p[i][0]*W,p[i][1]*H);ctx.stroke()}
+}
+function bornes(strokes){let y0=1,y1=0;strokes.forEach(s=>s.p.forEach(q=>{y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])}));return [Math.max(0,y0-.04),Math.min(1,y1+.04)]}
+function exportPad(){
+  if(!DRAFT.strokes.length)return null;
+  const W=1400,H=Math.round(W*(PAD?PAD.h/PAD.w:.25));
+  const [y0,y1]=bornes(DRAFT.strokes);const top=Math.floor(y0*H),hh=Math.max(60,Math.ceil((y1-y0)*H));
+  const c=document.createElement("canvas");c.width=W;c.height=hh;const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,hh);x.translate(0,-top);
+  DRAFT.strokes.forEach(s=>drawStroke(x,s,W,H,W/(PAD?PAD.w:700)));
+  return c;
+}
+
+/* ---------- terminer le cours ---------- */
+async function terminerCours(){
+  const D=DRAFT,e=S.eleves[D.eleveId];
+  const btn=document.querySelector('[data-act="terminer"]');if(btn){btn.disabled=true;btn.textContent="Enregistrement…"}
+  let dessin=null;
+  const c=exportPad();
+  if(c){try{const blob=await new Promise(r=>c.toBlob(r,"image/png"));dessin=await upload(blob,"image/png")}catch(x){toast("La note à la main n'a pas pu être gardée.")}}
+  const id=uid(),now=new Date();
+  const seance={eleveId:D.eleveId,date:now.toISOString(),duree:Math.round((Date.now()-D.start)/60000),type:D.type,debut:{s:+D.debut.s||null,v:+D.debut.v||null},fin:{s:+D.fin.s||null,v:+D.fin.v||null},statuts:D.statuts,erreurs:D.erreurs,note:D.note,dessin,captures:D.captures,audios:D.audios,aFaire:D.aFaire,paye:!!D.paye,cree:now.toISOString()};
+  const planning=D.planning.filter(b=>(b.titre||"").trim()).map(b=>({titre:b.titre.trim(),min:+b.min||0}));
+  const objectifs=String(D.objectifs||"").split("\n").map(s=>s.trim()).filter(Boolean);
+  seance.planning=planning;seance.objectifs=objectifs;seance.sourateSemaine=+D.sourateSemaine||null;
+  save("seances",id,seance);
+  const maj={...e,sourates:{...(e.sourates||{}),...D.statuts},ouOnEnEst:D.ouOnEnEst||e.ouOnEnEst||"",aFaire:D.aFaire||"",derniere:now.toISOString(),planning,objectifs,sourateSemaine:+D.sourateSemaine||null};
+  if(seance.type==="lecture"&&seance.fin.s)maj.reprise=suivant(seance.fin);
+  save("eleves",D.eleveId,maj);
+  if(D.paye&&e.tarifMode!=="seance"){const k=D.eleveId+"_"+moisKey();save("paiements",k,{eleveId:D.eleveId,mois:moisKey(),paye:true,montant:+e.tarif||0,date:now.toISOString()})}
+  DRAFT=null;PAD=null;go("bilan",{id,nouveau:true});
+}
+
+/* ---------- dessins sur canvas (planning, PDF) ---------- */
+async function polices(){try{await Promise.all(["700 40px Literata","500 40px Literata","400 30px Figtree","600 30px Figtree","400 40px Amiri","700 40px Amiri"].map(f=>document.fonts.load(f)))}catch(e){}}
+function lignes(ctx,text,maxW){const out=[];String(text||"").split("\n").forEach(par=>{let l="";par.split(/\s+/).forEach(w=>{const t=l?l+" "+w:w;if(ctx.measureText(t).width>maxW&&l){out.push(l);l=w}else l=t});out.push(l)});return out}
+function rrect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+const loadImg=src=>new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src});
+async function dessinerPlanning(e){
+  await polices();
+  const W=1600,P=70,bl=e.planning,tot=bl.reduce((a,b)=>a+(+b.min||0),0),obj=e.objectifs||[];
+  const cols=Math.min(4,bl.length),rowsB=Math.ceil(bl.length/cols),cw=(W-2*P-(cols-1)*24)/cols;
+  const H=360+rowsB*230+(obj.length?110+obj.length*58:0)+(e.sourateSemaine?100:0)+190;
+  const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  x.fillStyle="#f8f4ec";x.fillRect(0,0,W,H);
+  x.strokeStyle="#c9a85e";x.lineWidth=3;rrect(x,24,24,W-48,H-48,28);x.stroke();
+  x.fillStyle="#1f3a2c";x.font="700 70px Literata";x.textAlign="center";x.fillText("Planning de révision",W/2,150);
+  x.fillStyle="#8a6a25";x.font="700 70px Literata";x.fillText("de "+e.prenom,W/2,232);
+  x.fillStyle="#2f5240";x.font="600 36px Figtree";x.fillText(tot+" minutes par jour",W/2,295);
+  x.textAlign="left";
+  bl.forEach((b,i)=>{const cx=P+(i%cols)*(cw+24),cy=340+Math.floor(i/cols)*230;x.fillStyle=BLOC_COULEURS[i%6];rrect(x,cx,cy,cw,200,22);x.fill();
+    x.fillStyle="#1f2a24";x.font="700 46px Literata";x.textAlign="center";x.fillText(b.min+" min",cx+cw/2,cy+66);
+    x.font="400 30px Figtree";const L=lignes(x,b.titre,cw-36).slice(0,3);L.forEach((l,k)=>x.fillText(l,cx+cw/2,cy+112+k*36));x.textAlign="left"});
+  let y=340+rowsB*230+20;
+  if(e.sourateSemaine){x.fillStyle="#eaf0e6";rrect(x,P,y,W-2*P,80,18);x.fill();x.fillStyle="#1f3a2c";x.font="600 32px Figtree";x.fillText("Sourate de la semaine : "+sN(e.sourateSemaine),P+30,y+52);x.font="700 42px Amiri";x.textAlign="right";x.fillText(sAr(e.sourateSemaine),W-P-30,y+54);x.textAlign="left";y+=100}
+  if(obj.length){x.fillStyle="#f3e8d4";const h=80+obj.length*58;rrect(x,P,y,W-2*P,h,22);x.fill();x.fillStyle="#5b3d10";x.font="700 40px Literata";x.fillText("Rappel des objectifs",P+30,y+58);
+    x.font="400 32px Figtree";obj.forEach((o,k)=>{const yy=y+112+k*58;x.fillStyle="#2f5240";x.beginPath();x.arc(P+48,yy-10,16,0,7);x.fill();x.strokeStyle="#fff";x.lineWidth=4;x.beginPath();x.moveTo(P+40,yy-10);x.lineTo(P+46,yy-3);x.lineTo(P+57,yy-18);x.stroke();x.fillStyle="#1f2a24";x.fillText(o,P+80,yy)});y+=h+20}
+  x.textAlign="center";x.fillStyle="#2f5240";x.font="500 34px Literata";x.fillText("Petits efforts chaque jour = grands résultats",W/2,y+60);
+  x.font="700 46px Amiri";x.fillStyle="#8a6a25";x.fillText("إن شاء الله",W/2,y+118);
+  if(reg().profNom){x.font="400 26px Figtree";x.fillStyle="#5f6b63";x.fillText(reg().profNom,W/2,H-52)}
+  return c;
+}
+async function creerPdf(sid){
+  const s=S.seances[sid],e={id:s.eleveId,...(S.eleves[s.eleveId]||{prenom:"Élève"})},o=R.opts||{};
+  if(!window.jspdf){toast("Le module PDF n'a pas pu se charger. Rechargez la page.");return}
+  toast("Création du PDF…");await polices();
+  const W=1240,H=1754,M=90,pages=[];let x,y;
+  const prof=reg().profNom||"";
+  const nouvellePage=()=>{const c=document.createElement("canvas");c.width=W;c.height=H;x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);pages.push(c);
+    if(pages.length===1){x.fillStyle="#2f5240";x.fillRect(0,0,W,250);x.fillStyle="#c9a85e";x.fillRect(0,250,W,6);x.fillStyle="#fff";x.font="700 58px Literata";x.fillText("Compte rendu de cours",M,120);x.font="400 30px Figtree";x.fillText(e.prenom+" · "+fmtLong(s.date)+" · "+(TYPES[s.type]||""),M,180);if(prof){x.globalAlpha=.85;x.fillText(prof,M,222);x.globalAlpha=1}y=320}
+    else{x.fillStyle="#2f5240";x.font="600 26px Figtree";x.fillText("Compte rendu · "+e.prenom+" · "+fmtDate(s.date),M,80);x.fillStyle="#c9a85e";x.fillRect(M,100,W-2*M,3);y=150}};
+  const besoin=h=>{if(y+h>H-110)nouvellePage()};
+  const titre=t=>{besoin(90);x.fillStyle="#8a6a25";x.font="600 24px Figtree";x.fillText(t.toUpperCase(),M,y);y+=18;x.fillStyle="#eadfc8";x.fillRect(M,y,W-2*M,2);y+=44};
+  const texte=(t,f="400 30px Figtree",col="#1f2a24")=>{x.font=f;x.fillStyle=col;lignes(x,t,W-2*M).forEach(l=>{besoin(42);x.fillText(l,M,y);y+=42});y+=18};
+  const image=async(src,maxH=900)=>{const im=await loadImg(src);if(!im)return;let w=W-2*M,h=im.height*w/im.width;if(h>maxH){h=maxH;w=im.width*h/im.height}besoin(h+20);x.strokeStyle="#e3ddd0";x.lineWidth=2;x.drawImage(im,M,y,w,h);x.strokeRect(M,y,w,h);y+=h+30};
+  nouvellePage();
+  if(passageTxt(s)){titre("Passage travaillé");texte(passageTxt(s),"500 34px Literata")}
+  if(statutsTxt(s)){titre("Bilan");Object.entries(ETATS).forEach(([k,l])=>{const n=Object.entries(s.statuts||{}).filter(([,v])=>v===k).map(([m])=>+m);if(n.length)texte(l+" : "+n.map(m=>sN(m)+" ("+sAr(m)+")").join(", "))})}
+  if((s.erreurs||[]).length){titre("Points à travailler");s.erreurs.forEach(r=>texte("• "+errTxt(r)))}
+  if(s.aFaire){titre("À réviser avant le prochain cours");texte(s.aFaire,"500 32px Figtree","#2f5240")}
+  if(s.type==="lecture"&&s.fin&&s.fin.s){titre("Prochaine lecture");texte("Reprendre à "+repriseTxt(s.fin))}
+  if(o.note&&s.note){titre("Note de l'enseignante");texte(s.note)}
+  if(o.dessin&&s.dessin){titre("Note à la main");await image(blobUrl(s.dessin),700)}
+  const pl=s.planning||e.planning||[],ob=s.objectifs||e.objectifs||[],sem=s.planning?s.sourateSemaine:e.sourateSemaine;
+  if(o.planning&&(pl.length||sem)){titre("Planning de la semaine");if(pl.length)texte(pl.map(b=>b.min+" min · "+b.titre).join("\n")+"\nTotal : "+pl.reduce((a,b)=>a+(+b.min||0),0)+" min par jour");if(sem)texte("Sourate de la semaine : "+sN(sem)+" ("+sAr(sem)+")","500 30px Figtree","#2f5240");if(ob.length)texte("Objectifs : "+ob.join(" · "),"400 28px Figtree","#5f6b63")}
+  if(o.captures&&(s.captures||[]).length){titre("Pages annotées");for(const cId of s.captures)await image(blobUrl(cId),1250)}
+  pages.forEach((c,i)=>{const g=c.getContext("2d");g.fillStyle="#8a8f88";g.font="400 22px Figtree";g.textAlign="left";g.fillText(prof?prof+" · BarakAllahu fikoum":"BarakAllahu fikoum",M,H-50);g.textAlign="right";g.fillText("Page "+(i+1)+" / "+pages.length,W-M,H-50);g.textAlign="left"});
+  const pdf=new window.jspdf.jsPDF({unit:"pt",format:"a4"});
+  pages.forEach((c,i)=>{if(i)pdf.addPage();pdf.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,595.28,841.89)});
+  const blob=pdf.output("blob");
+  let pdfId=null;
+  if(ASSETS||IDB){try{pdfId=await upload(blob,"application/pdf")}catch(err){toast("PDF créé mais non rangé dans la fiche.")}}
+  if(pdfId){if(s.pdf)await delAsset(s.pdf);save("seances",sid,{...S.seances[sid],pdf:pdfId});render(true)}
+  await saveFile(`Compte rendu ${e.prenom} ${s.date.slice(0,10)}.pdf`,blob);
+}
+
+/* ---------- démarrage ---------- */
+async function boot(){
+  render(true);
+  let c=window.claude;
+  if(location.protocol!=="file:"&&window.top!==window)for(let i=0;i<30&&!(c&&c.use);i++){await new Promise(r=>setTimeout(r,100));c=window.claude}
+  if(!c||!c.use){await loadLocal();READY=true;render(true);return}
+  const [db,assets,dl]=await Promise.all(["db","assets","downloads"].map(n=>c.use(n).catch(()=>null)));
+  ASSETS=assets;DL=dl;
+  if(!db){await loadLocal();READY=true;render(true);return}
+  DB=db;MODE="db";
+  let restants=COLS.length;
+  const fin=()=>{if(--restants===0){READY=true;render(true)}};
+  COLS.forEach(col=>{let first=true;db.collection(col).onSnapshot(snap=>{const o={};snap.docs.forEach(d=>o[d.id]=d.data());S[col]=o;if(first){first=false;fin()}else render()},err=>{toast("Connexion aux données perdue. Rechargez la page.");if(first){first=false;fin()}})});
+  setTimeout(()=>{if(!READY){READY=true;render(true)}},8000);
+}
+boot();
+</script>

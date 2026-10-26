@@ -1,0 +1,104 @@
+CARNET CORAN — GUIDE D'UTILISATION
+==================================
+
+Le même guide est dans l'outil : bouton « Guide » en haut de l'écran.
+
+Ce carnet est réservé à l'enseignante. Les élèves n'y ont pas accès :
+ils reçoivent seulement ce qu'elle leur envoie sur WhatsApp.
+Toutes les données restent sur son appareil : rien n'est envoyé sur
+Internet.
+
+
+0. INSTALLER LE CARNET SUR L'ÉCRAN D'ACCUEIL
+- iPhone / iPad : ouvrir le lien du carnet dans Safari, bouton
+  Partager (carré avec une flèche) > « Sur l'écran d'accueil ».
+- Android : ouvrir le lien dans Chrome, menu ⋮ > « Ajouter à l'écran
+  d'accueil ».
+- Ensuite, toujours ouvrir le carnet avec l'icône de l'écran
+  d'accueil : c'est là que les données sont gardées.
+
+
+1. LES RÉGLAGES (une seule fois)
+- Ouvrir « Réglages ».
+- Écrire son nom : il signe les messages et les comptes rendus.
+- Coller son lien Zoom : le même pour tous les élèves, il est mis
+  automatiquement dans les messages.
+- Modifier si besoin les deux messages de bienvenue (enfant / adulte)
+  et la liste des points à travailler.
+
+2. AJOUTER UN ÉLÈVE
+- « Nouvel élève » : prénom, nom, adulte ou enfant, téléphone WhatsApp.
+- Pour un enfant : nom du parent et son numéro (les messages lui sont
+  adressés).
+- Créneaux (jour et heure), durée, tarif (par mois ou à la séance).
+- « Créer la fiche », puis « Ouvrir WhatsApp » : le message de
+  bienvenue avec le lien Zoom est déjà écrit.
+
+3. LE PLANNING ET LES OBJECTIFS
+- Fiche de l'élève > « Planning et objectifs » > « Modifier ».
+- Ajouter les blocs du jour avec leur durée, la sourate de la semaine,
+  les objectifs (un par ligne).
+- « Image du planning » puis « Partager » : choisir WhatsApp et
+  l'élève (ou le parent).
+
+4. PENDANT LE COURS
+- « Commencer » (depuis Aujourd'hui ou la fiche).
+- Type de cours, puis début et fin du passage (sourate + verset).
+  En lecture, la prochaine fois reprend juste après la fin.
+- Sourates travaillées : Acquise / En cours / À revoir.
+- Points à travailler : choisir dans la liste, lettre et verset si
+  besoin, « Ajouter ». « + Nouveau point… » l'ajoute à la liste.
+- Note à la main au stylet (arabe ou français).
+- Captures : capture de la page annotée dans Golden Quran, puis
+  « Ajouter des captures ».
+
+5. LES AUDIOS PENDANT LE COURS
+- « ● Enregistrer au micro », parler ou réciter, puis « ■ Arrêter » :
+  l'audio est ajouté au cours. La première fois, accepter l'accès au
+  micro.
+- Ou « Importer un audio » déjà enregistré (dictaphone, WhatsApp).
+- Ou joindre un audio de la bibliothèque : le choisir dans la liste
+  puis « Joindre ».
+- Les audios restent dans le compte rendu du cours : depuis
+  l'historique de l'élève, on peut les réécouter et les « Envoyer ».
+
+6. TERMINER LE COURS ET LE COMPTE RENDU
+- Mettre à jour « Où on en est maintenant » et le « Planning de la
+  semaine ».
+- « À faire la prochaine fois » : c'est ce qu'elle verra en premier
+  au prochain cours.
+- Cocher « payé » si c'est le cas, puis « Terminer le cours ».
+- « Créer le PDF » (cocher avant ce qu'on veut y mettre), puis
+  « Partager » > WhatsApp. Le PDF reste rangé dans la fiche.
+- « Envoyer le résumé sur WhatsApp » : message déjà écrit.
+
+7. LA BIBLIOTHÈQUE : AUDIOS, PDF ET IMAGES
+- « Bibliothèque » : « ● Enregistrer au micro » ou choisir un fichier
+  (audio, PDF ou image).
+- Lui donner un titre (ex. « Quraysh, récitation lente »), le classer
+  par sourate ou par thème (tajwid, alphabet…), puis « Ajouter ».
+- Une récitation modèle enregistrée une fois peut être envoyée à tous
+  les élèves.
+- Envoyer : choisir l'élève dans « Envoyer à… », « Envoyer », puis
+  « Partager » > WhatsApp.
+- On peut aussi envoyer depuis la fiche de l'élève (« Fichiers
+  envoyés »), qui garde la liste de tout ce qu'il a reçu.
+
+8. LES PAIEMENTS
+- « Paiements », choisir le mois avec les flèches.
+- Tarif mensuel : « Marquer payé ». Tarif à la séance : cocher
+  « Séance payée » à la fin du cours.
+- En haut : reçu, attendu, reste à recevoir.
+
+TRÈS IMPORTANT : LA SAUVEGARDE
+- Tout est gardé sur l'appareil, pas sur Internet.
+- Chaque semaine : Réglages > « Faire une sauvegarde », puis ranger le
+  fichier dans Fichiers ou Google Drive.
+- Tablette perdue ou changée : ouvrir le carnet sur la nouvelle
+  tablette, Réglages > « Restaurer une sauvegarde ».
+- Ne pas vider l'historique ou les données du navigateur : cela
+  effacerait le carnet.
+
+BON À SAVOIR
+- « Marquer comme arrêté » retire un élève des cours du jour sans rien
+  effacer ; « Supprimer l'élève » efface tout pour de bon.
